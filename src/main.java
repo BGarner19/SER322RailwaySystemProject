@@ -15,6 +15,7 @@ public class main {
 
             db.createTables(c);
             db.fillTables(c);
+
             c.close();
 
         } catch (Exception e) {
