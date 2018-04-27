@@ -221,7 +221,36 @@ public class TrainDatabaseGUI {
 		
 		cargoTypeSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				cargoTypeDrop.removeAllItems();
+				cargoTypeDrop.addItem("Select From...");
+				for (int i = 0; i < cargoTypeLibrary.cargoTypeList.size(); ++i) 
+					cargoTypeDrop.addItem(cargoTypeLibrary.cargoTypeList.get(i).Type);
+				
+				if (!cargoTypeIDField.getText().equals("")) {
+					for (int i = 0; i < cargoTypeLibrary.cargoTypeList.size(); ++i) {
+						if (cargoTypeLibrary.cargoTypeList.get(i).ID != Integer.parseInt(cargoTypeIDField.getText())) {
+							try {
+								cargoTypeDrop.removeItem(cargoTypeLibrary.cargoTypeList.get(i).Type);
+							}
+							catch (Exception ex) {
+								System.out.println("Element Not Found");
+							}
+						}
+					}
+				}
+				if (!cargoTypeTypeField.getText().equals("")) {
+					for (int i = 0; i < cargoTypeLibrary.cargoTypeList.size(); ++i) {
+						if (!cargoTypeLibrary.cargoTypeList.get(i).Type.equals(cargoTypeTypeField.getText())) {
+							try {
+								cargoTypeDrop.removeItem(cargoTypeLibrary.cargoTypeList.get(i).Type);
+							}
+							catch (Exception ex) {
+								System.out.println("Element Not Found");
+							}
+						}
+					}
+				}
+				
 			}
 		});
 		
@@ -229,6 +258,7 @@ public class TrainDatabaseGUI {
 			public void actionPerformed(ActionEvent e) {
 				CargoType c = new CargoType((Integer.parseInt(cargoTypeIDField.getText())), cargoTypeTypeField.getText());
 				cargoTypeLibrary.cargoTypeList.add(c);
+				cargoTypeDrop.addItem(c.Type);
 				try {
 					cargoTypeLibrary.ExportJSON();
 				} catch (JSONException e1) {
@@ -240,15 +270,17 @@ public class TrainDatabaseGUI {
 		cargoTypeDrop.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				try {
-					if (cargoTypeDrop.getSelectedItem().equals("Select From...")) {
-						cargoTypeIDField.setText("");
-						cargoTypeTypeField.setText("");
-					}
-					else {
-						for (int i = 0; i < cargoTypeLibrary.cargoTypeList.size(); ++i) {
-							if (cargoTypeLibrary.cargoTypeList.get(i).Type.equals(cargoTypeDrop.getSelectedItem())) {
-								cargoTypeIDField.setText(Integer.toString(cargoTypeLibrary.cargoTypeList.get(i).ID));
-								cargoTypeTypeField.setText(cargoTypeLibrary.cargoTypeList.get(i).Type);
+					if (cargoTypeDrop.getSelectedItem() != null) {
+						if (cargoTypeDrop.getSelectedItem().equals("Select From...")) {
+							//cargoTypeIDField.setText("");
+							//cargoTypeTypeField.setText("");
+						}
+						else {
+							for (int i = 0; i < cargoTypeLibrary.cargoTypeList.size(); ++i) {
+								if (cargoTypeLibrary.cargoTypeList.get(i).Type.equals(cargoTypeDrop.getSelectedItem())) {
+									cargoTypeIDField.setText(Integer.toString(cargoTypeLibrary.cargoTypeList.get(i).ID));
+									cargoTypeTypeField.setText(cargoTypeLibrary.cargoTypeList.get(i).Type);
+								}
 							}
 						}
 					}
@@ -274,7 +306,7 @@ public class TrainDatabaseGUI {
 			public void actionPerformed(ActionEvent e) {
 				TrainModels tm = new TrainModels((Integer.parseInt(trainModelsIDField.getText())), trainModelsNameField.getText(), (Integer.parseInt(trainModelsWeightField.getText())), (Integer.parseInt(trainModelsCargoIDField.getText())), (Integer.parseInt((trainModelsNumberOfCarsField.getText()))), (Integer.parseInt(trainModelsCapacityField.getText())), (Integer.parseInt(trainModelsCapacityField.getText())));
 				trainModelsLibrary.trainModelsList.add(tm);
-				
+				trainModelsDrop.addItem(tm.Name);
 				try {
 					trainModelsLibrary.ExportJSON();
 				} catch (JSONException e1) {
@@ -298,7 +330,7 @@ public class TrainDatabaseGUI {
 			public void actionPerformed(ActionEvent e) {
 				Train t = new Train(Integer.parseInt(trainIDField.getText()),trainNameField.getText(), Integer.parseInt(trainModelIDField.getText()));
 				trainLibrary.trainList.add(t);
-				
+				trainDrop.addItem(t.name);
 				try {
 					trainLibrary.ExportJSON();
 				} catch (JSONException e1) {
@@ -321,9 +353,9 @@ public class TrainDatabaseGUI {
 		
 		scheduleAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Schedule s = new Schedule(Integer.parseInt(scheduleIDField.getText()), Integer.parseInt(scheduleTrainIDField.getText()), Integer.parseInt(scheduleRouteIDField.getText()), scheduleDepartTimeField.getText(), scheduleArriveTimeField.getText());
-				
+				Schedule s = new Schedule(Integer.parseInt(scheduleIDField.getText()), Integer.parseInt(scheduleTrainIDField.getText()), Integer.parseInt(scheduleRouteIDField.getText()), scheduleDepartTimeField.getText(), scheduleArriveTimeField.getText());				
 				scheduleLibrary.scheduleList.add(s);
+				scheduleDrop.addItem(s.ID);
 				try {
 				scheduleLibrary.ExportJSON();
 				}catch(JSONException e1) {
@@ -348,7 +380,7 @@ public class TrainDatabaseGUI {
 			public void actionPerformed(ActionEvent e) {
 				Route r = new Route(Integer.parseInt(routeIDField.getText()), routeNameField.getText(), Integer.parseInt(routeSrcStationIDField.getText()), Integer.parseInt(routeDestStationIDField.getText()));
 				routeLibrary.routeList.add(r);
-				
+				routeDrop.addItem(r.Name);
 				try {
 					routeLibrary.ExportJSON();
 				} catch (JSONException e1) {
@@ -373,7 +405,7 @@ public class TrainDatabaseGUI {
 			public void actionPerformed(ActionEvent e) {
 				Station st = new Station(Integer.parseInt(stationIDField.getText()), stationNameField.getText());
 				stationLibrary.stationList.add(st);
-				
+				stationDrop.addItem(st.Name);
 				try {
 					stationLibrary.ExportJSON();
 				} catch (JSONException e1) {
@@ -397,7 +429,7 @@ public class TrainDatabaseGUI {
 			public void actionPerformed(ActionEvent e) {
 				Location l = new Location(locationAddressField.getText(), Integer.parseInt(locationStationIDField.getText()));
 				locationLibrary.locationList.add(l);
-				
+				locationDrop.addItem(l.Address);
 				try {
 					locationLibrary.ExportJSON();
 				} catch (JSONException e1) {
@@ -422,7 +454,7 @@ public class TrainDatabaseGUI {
 			public void actionPerformed(ActionEvent e) {
 				Ticket ti = new Ticket(Integer.parseInt(ticketIDField.getText()), Integer.parseInt(ticketTypeIDField.getText()), Integer.parseInt(ticketScheduleIDField.getText()));
 				ticketLibrary.ticketList.add(ti);
-				
+				ticketDrop.addItem(ti.ID);
 				try {
 					ticketLibrary.ExportJSON();
 				} catch (JSONException e1) {
@@ -447,7 +479,7 @@ public class TrainDatabaseGUI {
 			public void actionPerformed(ActionEvent e) {
 				TicketTypes tt = new TicketTypes(Integer.parseInt(ticketTypesIDField.getText()), ticketTypesTypeField.getText(), Integer.parseInt(ticketTypesPriceField.getText()));
 				ticketTypesLibrary.ticketTypesList.add(tt);
-				
+				ticketTypesDrop.addItem(tt.Type);
 				try {
 					ticketTypesLibrary.ExportJSON();
 				} catch (JSONException e1) {
@@ -471,7 +503,7 @@ public class TrainDatabaseGUI {
 			public void actionPerformed(ActionEvent e) {
 				Passenger p = new Passenger(Integer.parseInt(passengerIDField.getText()), Integer.parseInt(passengerTicketIDField.getText()), passengerFirstNameField.getText(), passengerLastNameField.getText());
 				passengerLibrary.passengerList.add(p);
-				
+				passengerDrop.addItem(p.ID);
 				try {
 					passengerLibrary.ExportJSON();
 				} catch (JSONException e1) {
