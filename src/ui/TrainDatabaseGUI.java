@@ -189,7 +189,8 @@ public class TrainDatabaseGUI {
 		ticketTypesDrop.addItem("Select From...");
 		passengerDrop.addItem("Select From...");
 		
-		for (int i = 0; i < cargoTypeLibrary.cargoTypeList.size(); ++i) cargoTypeDrop.addItem(cargoTypeLibrary.cargoTypeList.get(i).Type);
+		for (int i = 0; i < cargoTypeLibrary.cargoTypeList.size(); ++i) 
+			cargoTypeDrop.addItem(cargoTypeLibrary.cargoTypeList.get(i).Type);
 		
 		// cargoType panel setup
 		
@@ -224,9 +225,12 @@ public class TrainDatabaseGUI {
 						cargoTypeTypeField.setText("");
 					}
 					else {
-						CargoType hold = (CargoType) cargoTypeDrop.getSelectedItem();
-						cargoTypeIDField.setText(Integer.toString(hold.ID));
-						cargoTypeTypeField.setText(hold.Type);
+						for (int i = 0; i < cargoTypeLibrary.cargoTypeList.size(); ++i) {
+							if (cargoTypeLibrary.cargoTypeList.get(i).Type.equals(cargoTypeDrop.getSelectedItem())) {
+								cargoTypeIDField.setText(Integer.toString(cargoTypeLibrary.cargoTypeList.get(i).ID));
+								cargoTypeTypeField.setText(cargoTypeLibrary.cargoTypeList.get(i).Type);
+							}
+						}
 					}
 				}
 				catch (Exception ex) {
