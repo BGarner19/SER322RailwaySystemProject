@@ -66,20 +66,20 @@ public class Database {
         try {
             stmt = c.createStatement();
 
-            sql = "DROP SCHEMA IF EXISTS Railway CASCADE";
+//            sql = "DROP SCHEMA IF EXISTS Railway CASCADE";
+//            stmt.executeUpdate(sql);
+
+            sql = "CREATE SCHEMA IF NOT EXISTS Railway";
             stmt.executeUpdate(sql);
 
-            sql = "CREATE SCHEMA Railway";
-            stmt.executeUpdate(sql);
-
-            sql = "CREATE TABLE Railway.CARGO_TYPES(" +
+            sql = "CREATE TABLE IF NOT EXISTS Railway.CARGO_TYPES(" +
                     "ID INT NOT NULL," +
                     "Type VARCHAR(30) NOT NULL," +
                     "UNIQUE (Type)," +
                     "PRIMARY KEY (ID))";
             stmt.executeUpdate(sql);
 
-            sql = "CREATE TABLE Railway.MODELS " +
+            sql = "CREATE TABLE IF NOT EXISTS Railway.MODELS " +
                     "(ID INT NOT NULL," +
                     "Name VARCHAR(15) NOT NULL," +
                     "Weight INT NOT NULL," +
@@ -92,7 +92,7 @@ public class Database {
                     "FOREIGN KEY (CargoID) REFERENCES Railway.CARGO_TYPES(ID))";
             stmt.executeUpdate(sql);
 
-            sql = "CREATE TABLE Railway.TRAINS(" +
+            sql = "CREATE TABLE IF NOT EXISTS Railway.TRAINS(" +
                     "ID INT NOT NULL," +
                     "Name VARCHAR(15) NOT NULL," +
                     "ModelID INT NOT NULL," +
@@ -101,7 +101,7 @@ public class Database {
                     "FOREIGN KEY (ModelID) REFERENCES Railway.MODELS(ID))";
             stmt.executeUpdate(sql);
 
-            sql = "CREATE TABLE Railway.STATIONS(" +
+            sql = "CREATE TABLE IF NOT EXISTS Railway.STATIONS(" +
                     "ID INT NOT NULL," +
                     "Name VARCHAR(15) NOT NULL," +
                     "Latitude DECIMAL(10,2) NOT NULL," +
@@ -109,7 +109,7 @@ public class Database {
                     "PRIMARY KEY (ID))";
             stmt.executeUpdate(sql);
 
-            sql = "CREATE TABLE Railway.ROUTES(" +
+            sql = "CREATE TABLE IF NOT EXISTS Railway.ROUTES(" +
                     "ID INT NOT NULL," +
                     "Name VARCHAR(15) NOT NULL," +
                     "SourceID INT NOT NULL," +
@@ -119,7 +119,7 @@ public class Database {
                     "FOREIGN KEY (DestID) REFERENCES Railway.STATIONS(ID))";
             stmt.executeUpdate(sql);
 
-            sql = "CREATE TABLE Railway.SCHEDULE(" +
+            sql = "CREATE TABLE IF NOT EXISTS Railway.SCHEDULE(" +
                     "ID INT NOT NULL," +
                     "TrainID INT NOT NULL," +
                     "RouteID INT NOT NULL," +
@@ -130,7 +130,7 @@ public class Database {
                     "FOREIGN KEY (RouteID) REFERENCES Railway.ROUTES(ID))";
             stmt.executeUpdate(sql);
 
-            sql = "CREATE TABLE Railway.TICKET_TYPES(" +
+            sql = "CREATE TABLE IF NOT EXISTS Railway.TICKET_TYPES(" +
                     "ID INT NOT NULL," +
                     "Type VARCHAR(30) NOT NULL," +
                     "Price DECIMAL(10,2) NOT NULL," +
@@ -138,7 +138,7 @@ public class Database {
                     "PRIMARY KEY (ID))";
             stmt.executeUpdate(sql);
 
-            sql = "CREATE TABLE Railway.TICKETS(" +
+            sql = "CREATE TABLE IF NOT EXISTS Railway.TICKETS(" +
                     "ID INT NOT NULL," +
                     "ScheduleID INT NOT NULL," +
                     "TypeID INT NOT NULL," +
@@ -147,7 +147,7 @@ public class Database {
                     "FOREIGN KEY (TypeID) REFERENCES Railway.TICKET_TYPES(ID))";
             stmt.executeUpdate(sql);
 
-            sql = "CREATE TABLE Railway.PASSENGERS(" +
+            sql = "CREATE TABLE IF NOT EXISTS Railway.PASSENGERS(" +
                     "ID INT NOT NULL," +
                     "FName VARCHAR(15) NOT NULL," +
                     "MI CHAR," +
@@ -244,9 +244,7 @@ public class Database {
             stmt.executeUpdate(sql);
         }
         catch (Exception e) {
-            e.printStackTrace();
-            System.err.println(e.getClass().getName()+": "+e.getMessage());
-            System.exit(0);
+            
         }
     }
 
