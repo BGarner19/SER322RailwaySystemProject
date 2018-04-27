@@ -315,6 +315,39 @@ public class TrainDatabaseGUI {
 			}
 		});
 		
+		trainModelsDrop.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				try {
+					if (trainModelsDrop.getSelectedItem().equals("Select From...")) {
+						trainModelsIDField.setText("");
+						trainModelsNameField.setText("");
+						trainModelsWeightField.setText("");
+						trainModelsCargoIDField.setText("");
+						trainModelsNumberOfCarsField.setText("");
+						trainModelsCapacityField.setText("");
+						trainModelsWeightLimitField.setText("");
+					}
+					else {
+						for (int i = 0; i < trainModelsLibrary.trainModelsList.size(); ++i) {
+							if (trainModelsLibrary.trainModelsList.get(i).Name.equals(trainModelsDrop.getSelectedItem())) {
+								trainModelsIDField.setText(Integer.toString(trainModelsLibrary.trainModelsList.get(i).ID));
+								trainModelsNameField.setText(trainModelsLibrary.trainModelsList.get(i).Name);
+								trainModelsWeightField.setText(Integer.toString(trainModelsLibrary.trainModelsList.get(i).Weight));
+								trainModelsCargoIDField.setText(Integer.toString(trainModelsLibrary.trainModelsList.get(i).CargoID));
+								trainModelsNumberOfCarsField.setText(Integer.toString(trainModelsLibrary.trainModelsList.get(i).NumberOfCars));
+								trainModelsCapacityField.setText(Integer.toString(trainModelsLibrary.trainModelsList.get(i).Capacity));
+								trainModelsWeightLimitField.setText(Integer.toString(trainModelsLibrary.trainModelsList.get(i).WeightLimit));	
+							}
+						}
+					}
+				}
+				catch (Exception ex) {
+					System.out.println(ex.getMessage());
+				}
+			}
+		});
+		
+		
 		// train panel setup
 		
 		trainPanel.add(new JLabel()); trainPanel.add(new JLabel("ID", JLabel.CENTER)); trainPanel.add(new JLabel("Name", JLabel.CENTER)); trainPanel.add(new JLabel("Model ID", JLabel.CENTER)); trainPanel.add(new JLabel()); trainPanel.add(new JLabel()); trainPanel.add(new JLabel()); trainPanel.add(new JLabel()); trainPanel.add(new JLabel()); trainPanel.add(new JLabel()); trainPanel.add(new JLabel());
@@ -339,6 +372,36 @@ public class TrainDatabaseGUI {
 				
 			}
 		});
+		
+		
+		trainDrop.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				try {
+					if (trainDrop.getSelectedItem().equals("Select From...")) {
+						trainIDField.setText("");
+						trainNameField.setText("");
+						trainModelIDField.setText("");
+						
+					}
+					else {
+						for (int i = 0; i < trainLibrary.trainList.size(); ++i) {
+							if (trainLibrary.trainList.get(i).name.equals(trainDrop.getSelectedItem())) {
+								trainIDField.setText(Integer.toString(trainLibrary.trainList.get(i).ID));
+								trainNameField.setText(trainLibrary.trainList.get(i).name);
+								trainModelIDField.setText(Integer.toString(trainLibrary.trainList.get(i).modelID));
+							}
+						}
+					}
+				}
+				catch (Exception ex) {
+					System.out.println(ex.getMessage());
+				}
+			}
+		});
+		
+		
+		
+		
 		
 		// schedule panel setup
 		
@@ -365,6 +428,41 @@ public class TrainDatabaseGUI {
 			}
 		});
 		
+		
+		
+		scheduleDrop.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				try {
+					if (scheduleDrop.getSelectedItem().equals("Select From...")) {
+						scheduleIDField.setText("");
+						scheduleTrainIDField.setText("");
+						scheduleRouteIDField.setText("");
+						scheduleDepartTimeField.setText("");
+						scheduleArriveTimeField.setText("");
+
+					}
+					else {
+						for (int i = 0; i < scheduleLibrary.scheduleList.size(); ++i) {
+							if (scheduleLibrary.scheduleList.get(i).ID == (Integer) scheduleDrop.getSelectedItem()) {
+								scheduleIDField.setText(Integer.toString(scheduleLibrary.scheduleList.get(i).ID));
+								scheduleTrainIDField.setText(Integer.toString(scheduleLibrary.scheduleList.get(i).getTrainID()));
+								scheduleRouteIDField.setText(Integer.toString(scheduleLibrary.scheduleList.get(i).getRouteID()));
+								scheduleDepartTimeField.setText(scheduleLibrary.scheduleList.get(i).departTime);
+								scheduleArriveTimeField.setText(scheduleLibrary.scheduleList.get(i).arriveTime);
+							}
+						}
+					}
+				}
+				catch (Exception ex) {
+					System.out.println(ex.getMessage());
+				}
+			}
+		});
+		
+		
+		
+		
+		
 		// route panel setup
 		
 		routePanel.add(new JLabel()); routePanel.add(new JLabel("ID", JLabel.CENTER)); routePanel.add(new JLabel("Name", JLabel.CENTER)); routePanel.add(new JLabel("Source Station ID", JLabel.CENTER)); routePanel.add(new JLabel("Destination Station ID", JLabel.CENTER)); routePanel.add(new JLabel()); routePanel.add(new JLabel()); routePanel.add(new JLabel()); routePanel.add(new JLabel()); routePanel.add(new JLabel()); routePanel.add(new JLabel());
@@ -390,6 +488,38 @@ public class TrainDatabaseGUI {
 			}
 		});
 		
+		
+		routeDrop.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				try {
+					if (routeDrop.getSelectedItem().equals("Select From...")) {
+						routeIDField.setText("");
+						routeNameField.setText("");
+						routeSrcStationIDField.setText("");
+						routeDestStationIDField.setText("");
+						
+						
+					}
+					else {
+						for (int i = 0; i < routeLibrary.routeList.size(); ++i) {
+							if (routeLibrary.routeList.get(i).Name.equals(routeDrop.getSelectedItem())) {
+								routeIDField.setText(Integer.toString(routeLibrary.routeList.get(i).ID));
+								routeNameField.setText(routeLibrary.routeList.get(i).Name);
+								routeSrcStationIDField.setText(Integer.toString(routeLibrary.routeList.get(i).SrcStationID));
+								routeDestStationIDField.setText(Integer.toString(routeLibrary.routeList.get(i).DestStationID));
+							}
+						}
+					}
+				}
+				catch (Exception ex) {
+					System.out.println(ex.getMessage());
+				}
+			}
+		});
+		
+		
+		
+		
 		// station panel setup
 		
 		stationPanel.add(new JLabel()); stationPanel.add(new JLabel("ID", JLabel.CENTER)); stationPanel.add(new JLabel("Name", JLabel.CENTER)); stationPanel.add(new JLabel()); stationPanel.add(new JLabel()); stationPanel.add(new JLabel()); stationPanel.add(new JLabel()); stationPanel.add(new JLabel()); stationPanel.add(new JLabel()); stationPanel.add(new JLabel()); stationPanel.add(new JLabel());
@@ -413,6 +543,40 @@ public class TrainDatabaseGUI {
 				}
 			}
 		});
+		
+		
+		
+		stationDrop.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				try {
+					if (stationDrop.getSelectedItem().equals("Select From...")) {
+						stationIDField.setText("");
+						stationNameField.setText("");
+
+						
+						
+					}
+					else {
+						for (int i = 0; i < stationLibrary.stationList.size(); ++i) {
+							if (stationLibrary.stationList.get(i).Name.equals(stationDrop.getSelectedItem())) {
+								stationIDField.setText(Integer.toString(stationLibrary.stationList.get(i).ID));
+								stationNameField.setText(stationLibrary.stationList.get(i).Name);
+							}
+						}
+					}
+				}
+				catch (Exception ex) {
+					System.out.println(ex.getMessage());
+				}
+			}
+		});
+		
+		
+		
+		
+		
+		
+		
 		
 		// location panel setup
 		
@@ -439,6 +603,41 @@ public class TrainDatabaseGUI {
 			}
 		});
 		
+		
+		
+		
+		locationDrop.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				try {
+					if (locationDrop.getSelectedItem().equals("Select From...")) {
+						locationAddressField.setText("");
+						locationStationIDField.setText("");
+
+						
+						
+					}
+					else {
+						for (int i = 0; i < locationLibrary.locationList.size(); ++i) {
+							if (locationLibrary.locationList.get(i).Address.equals(locationDrop.getSelectedItem())) {
+								locationStationIDField.setText(Integer.toString(locationLibrary.locationList.get(i).StationID));
+								locationAddressField.setText(locationLibrary.locationList.get(i).Address);
+							}
+						}
+					}
+				}
+				catch (Exception ex) {
+					System.out.println(ex.getMessage());
+				}
+			}
+		});
+		
+		
+		
+		
+		
+		
+		
+		
 		// ticket panel setup
 		
 		ticketPanel.add(new JLabel()); ticketPanel.add(new JLabel("ID", JLabel.CENTER)); ticketPanel.add(new JLabel("Type ID", JLabel.CENTER)); ticketPanel.add(new JLabel("Schedule ID", JLabel.CENTER)); ticketPanel.add(new JLabel()); ticketPanel.add(new JLabel()); ticketPanel.add(new JLabel()); ticketPanel.add(new JLabel()); ticketPanel.add(new JLabel()); ticketPanel.add(new JLabel()); ticketPanel.add(new JLabel());
@@ -464,6 +663,37 @@ public class TrainDatabaseGUI {
 			}
 		});
 		
+		
+
+		ticketDrop.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				try {
+					if (ticketDrop.getSelectedItem().equals("Select From...")) {
+						ticketIDField.setText("");
+						ticketTypeIDField.setText("");
+						ticketScheduleIDField.setText("");
+
+
+					}
+					else {
+						for (int i = 0; i < ticketLibrary.ticketList.size(); ++i) {
+							if (ticketLibrary.ticketList.get(i).ID == (Integer) ticketDrop.getSelectedItem()) {
+								ticketIDField.setText(Integer.toString(ticketLibrary.ticketList.get(i).ID));
+								ticketTypeIDField.setText(Integer.toString(ticketLibrary.ticketList.get(i).getTypeID()));
+								ticketScheduleIDField.setText(Integer.toString(ticketLibrary.ticketList.get(i).ScheduleID));
+							}
+						}
+					}
+				}
+				catch (Exception ex) {
+					System.out.println(ex.getMessage());
+				}
+			}
+		});
+		
+		
+		
+		
 		// ticketType panel setup
 		
 		ticketTypesPanel.add(new JLabel()); ticketTypesPanel.add(new JLabel("ID", JLabel.CENTER)); ticketTypesPanel.add(new JLabel("Type", JLabel.CENTER)); ticketTypesPanel.add(new JLabel("Price", JLabel.CENTER)); ticketTypesPanel.add(new JLabel()); ticketTypesPanel.add(new JLabel()); ticketTypesPanel.add(new JLabel()); ticketTypesPanel.add(new JLabel()); ticketTypesPanel.add(new JLabel()); ticketTypesPanel.add(new JLabel()); ticketTypesPanel.add(new JLabel());
@@ -487,6 +717,40 @@ public class TrainDatabaseGUI {
 				}
 			}
 		});
+		
+		
+		
+		ticketTypesDrop.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				try {
+					if (ticketTypesDrop.getSelectedItem().equals("Select From...")) {
+						ticketTypesIDField.setText("");
+						ticketTypesTypeField.setText("");
+						ticketTypesPriceField.setText("");
+
+
+					}
+					else {
+						for (int i = 0; i < ticketTypesLibrary.ticketTypesList.size(); ++i) {
+							if (TicketTypesLibrary.ticketTypesList.get(i).Type.equals(ticketTypesDrop.getSelectedItem())) {
+								ticketTypesIDField.setText(Integer.toString(ticketTypesLibrary.ticketTypesList.get(i).ID));
+								ticketTypesPriceField.setText(Integer.toString(ticketTypesLibrary.ticketTypesList.get(i).Price));
+								ticketTypesTypeField.setText(ticketTypesLibrary.ticketTypesList.get(i).Type);
+							}
+						}
+					}
+				}
+				catch (Exception ex) {
+					System.out.println(ex.getMessage());
+				}
+			}
+		});
+		
+		
+		
+		
+		
+		
 		
 		// passenger panel setup
 		
@@ -512,6 +776,42 @@ public class TrainDatabaseGUI {
 			}
 		});
 
+		
+		
+		
+		passengerDrop.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				try {
+					if (passengerDrop.getSelectedItem().equals("Select From...")) {
+						passengerIDField.setText("");
+						passengerTicketIDField.setText("");
+						passengerFirstNameField.setText("");
+						passengerLastNameField.setText("");
+
+					}
+					else {
+						for (int i = 0; i < passengerLibrary.passengerList.size(); ++i) {
+							if (passengerLibrary.passengerList.get(i).ID == (Integer) passengerDrop.getSelectedItem()) {
+								passengerIDField.setText(Integer.toString(passengerLibrary.passengerList.get(i).ID));
+								passengerTicketIDField.setText(Integer.toString(passengerLibrary.passengerList.get(i).TicketID));
+								passengerFirstNameField.setText(passengerLibrary.passengerList.get(i).FirstName);
+								passengerLastNameField.setText(passengerLibrary.passengerList.get(i).LastName);
+							}
+						}
+					}
+				}
+				catch (Exception ex) {
+					System.out.println(ex.getMessage());
+				}
+			}
+		});
+		
+		
+		
+		
+		
+		
+		
 		// buffer panel setup
 		
 		bufferPanel.add(new JLabel());
