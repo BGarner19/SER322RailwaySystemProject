@@ -1,5 +1,8 @@
 package classes;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class TrainModels {
 	public int ID;
 	public String Name;
@@ -24,6 +27,17 @@ public class TrainModels {
 		WeightLimit = weightLimit;
 	}
 
+	public TrainModels(JSONObject object) throws JSONException {
+		this.ID = object.getInt("ID");
+		this.Name = object.getString("Name");
+		this.Weight = object.getInt("Weight");
+		this.CargoID = object.getInt("CargoID");
+		this.NumberOfCars = object.getInt("NumberOfCars");
+		this.Capacity = object.getInt("Capacity");
+		this.WeightLimit = object.getInt("WeightLimit");
+	}
+	
+	
 	public int getID() {
 		return ID;
 	}

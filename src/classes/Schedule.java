@@ -1,5 +1,8 @@
 package classes;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Schedule {
 	public int ID;
 	public int trainID;
@@ -20,6 +23,14 @@ public class Schedule {
 		this.arriveTime = arriveTime;
 	}
 
+	public Schedule(JSONObject object) throws JSONException{
+		this.ID = object.getInt("ID");
+		this.trainID = object.getInt("trainID");
+		this.routeID = object.getInt("routeID");
+		this.departTime = object.getString("departTime");
+		this.arriveTime = object.getString("arriveTime");
+	}
+	
 	public int getID() {
 		return ID;
 	}

@@ -1,5 +1,8 @@
 package classes;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Train {
 	public int ID;
 	public String name;
@@ -16,6 +19,12 @@ public class Train {
 		this.modelID = modelID;
 	}
 
+	public Train(JSONObject object) throws JSONException{
+		this.ID = object.getInt("ID");
+		this.name = object.getString("name");
+		this.modelID = object.getInt("modelID");
+	}
+	
 	public int getID() {
 		return ID;
 	}

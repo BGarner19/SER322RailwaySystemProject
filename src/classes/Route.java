@@ -1,5 +1,8 @@
 package classes;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Route {
 	public int ID;
 	public String Name;
@@ -18,6 +21,14 @@ public class Route {
 		DestStationID = destStationID;
 	}
 
+	public Route(JSONObject object) throws JSONException {
+		this.ID = object.getInt("ID");
+		this.Name = object.getString("Name");
+		this.SrcStationID = object.getInt("SrcStationID");
+		this.DestStationID = object.getInt("DestStationID");
+		
+	}
+	
 	public int getID() {
 		return ID;
 	}
