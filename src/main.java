@@ -4,8 +4,7 @@ import java.sql.Statement;
 
 public class main {
     public static void main(String args[]) {
-        Connection c = null;
-        String sql;
+        Connection c;
         Database db = new Database();
 
         try {
