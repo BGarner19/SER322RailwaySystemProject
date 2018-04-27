@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.Statement;
 
 public class main {
     public static void main(String args[]) {
@@ -10,7 +11,7 @@ public class main {
         try {
             Class.forName("org.postgresql.Driver");
             c = DriverManager
-                    .getConnection("jdbc:postgresql://localhost:5432/SER322_DB",
+                    .getConnection("jdbc:postgresql://localhost:5432/Team6RailwayDB",
                             "postgres", "322");
 
             db.createTables(c);
