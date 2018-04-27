@@ -2,7 +2,7 @@
 
 INSTRUCTIONS FOR SETTING UP THE DATABASE
 
-1. You must add postgresql-42.2.2.jar to the classpath. 
+1. You must add postgresql-42.2.2.jar as a necessary library. 
 2. This program uses an installation of PostgreSQL 10.3, which can be downloaded as an installer at www.enterprisedb.com/downloads/postgres-postgresql-downloads
 3. This program was created using an installation of PostgreSQL running on port 5432. Running it on a different port will require changing the call in Start.java to use a different port
 4. You must create a database in pgAdmin 4. Create a database using the statement CREATE DATABASE Team6RailwayDB
