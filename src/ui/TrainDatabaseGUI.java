@@ -34,7 +34,7 @@ public class TrainDatabaseGUI {
     
     
 	public TrainDatabaseGUI() throws IOException, JSONException {
-	    //database = new Database(5432, "Team6RailwayDB", "postgres", "322");
+	    database = new Database(5432, "Team6RailwayDB", "postgres", "322");
 	    cargoTypeLibrary = new CargoTypeLibrary("cargoType.json");
 	    locationLibrary = new LocationLibrary("location.json");
 	    passengerLibrary = new PassengerLibrary("passenger.json");
@@ -270,17 +270,7 @@ public class TrainDatabaseGUI {
 		cargoTypeDrop.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				try {
-<<<<<<< HEAD
-					if (cargoTypeDrop.getSelectedItem().equals("Select From...")) {
-						//cargoTypeIDField.setText("");
-						//cargoTypeTypeField.setText("");
-					}
-					else {
-						for (int i = 0; i < cargoTypeLibrary.cargoTypeList.size(); ++i) {
-							if (cargoTypeLibrary.cargoTypeList.get(i).Type.equals(cargoTypeDrop.getSelectedItem())) {
-								cargoTypeIDField.setText(Integer.toString(cargoTypeLibrary.cargoTypeList.get(i).ID));
-								cargoTypeTypeField.setText(cargoTypeLibrary.cargoTypeList.get(i).Type);
-=======
+
 					if (cargoTypeDrop.getSelectedItem() != null) {
 						if (cargoTypeDrop.getSelectedItem().equals("Select From...")) {
 							//cargoTypeIDField.setText("");
@@ -292,7 +282,6 @@ public class TrainDatabaseGUI {
 									cargoTypeIDField.setText(Integer.toString(cargoTypeLibrary.cargoTypeList.get(i).ID));
 									cargoTypeTypeField.setText(cargoTypeLibrary.cargoTypeList.get(i).Type);
 								}
->>>>>>> f09189d68ce6e8e603eb4d3a8126bca6742a72d4
 							}
 						}
 					}
@@ -796,10 +785,9 @@ public class TrainDatabaseGUI {
 			public void actionPerformed(ActionEvent e) {
 				Passenger p = new Passenger(Integer.parseInt(passengerIDField.getText()), Integer.parseInt(passengerTicketIDField.getText()), passengerFirstNameField.getText(), passengerLastNameField.getText());
 				passengerLibrary.passengerList.add(p);
-<<<<<<< HEAD
-=======
+
 				passengerDrop.addItem(p.ID);
->>>>>>> f09189d68ce6e8e603eb4d3a8126bca6742a72d4
+
 				try {
 					passengerLibrary.ExportJSON();
 				} catch (JSONException e1) {
