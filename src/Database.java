@@ -1,29 +1,44 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Database {
 
     private int port;
     private String dbName;
+    private String username;
+    private String password;
+    private Connection c;
 
-    public Database(int port, String dbName) {
+    /**
+     * Constructor to connect to the database. Takes in the port and database name.
+     * @param port The port that PostgreSQL is set to use. Default is 5432
+     * @param dbName The name of the database to connect to. Default is Team6RailwayDB.
+     */
+
+    public Database(int port, String dbName, String username, String password) {
         this.port = port;
         this.dbName = dbName;
+        this.username = username;
+        this.password = password;
 
         initDatabase();
     }
 
+    /**
+     * Connects to the database specified by the name on the correct port. Uses default user postgres and password 322.
+     * After connecting to the database, calls methods to create all of the tables in the database and fill them with
+     * data.
+     */
     private void initDatabase() {
-
-        Connection c;
 
         try {
             Class.forName("org.postgresql.Driver");
 
             c = DriverManager
                     .getConnection("jdbc:postgresql://localhost:" + port + "/" + dbName,
-                            "postgres", "322");
+                            username, password);
 
             createTables(c);
             fillTables(c);
@@ -35,8 +50,16 @@ public class Database {
             System.err.println(e.getClass().getName()+": "+e.getMessage());
             System.exit(0);
         }
+
         System.out.println("Opened database successfully");
     }
+
+    /**
+     * Creates the database relations as tables. Railway is the name of the schema. This method will delete all
+     * current data in the schema and recreate it to default state.
+     * @param c The connection to the database.
+     */
+
     public void createTables(Connection c) {
 
         String sql;
@@ -45,7 +68,7 @@ public class Database {
         try {
             stmt = c.createStatement();
 
-            sql = "DROP SCHEMA Railway CASCADE";
+            sql = "DROP SCHEMA IF EXISTS Railway CASCADE";
             stmt.executeUpdate(sql);
 
             sql = "CREATE SCHEMA Railway";
@@ -144,6 +167,11 @@ public class Database {
         }
     }
 
+    /**
+     * Fills the tables in the database with sample data. Railway is the name of the database schema.
+     * @param c The connection to the database.
+     */
+
     public void fillTables(Connection c) {
         String sql;
         Statement stmt;
@@ -173,7 +201,7 @@ public class Database {
                     "('1', 'Station1', '100.00', '100.00')," +
                     "('2', 'Station2', '200.00', '200.00')," +
                     "('3', 'Station3', '300.00', '300.00')";
-            stmt.executeUpdate(sql); //works
+            stmt.executeUpdate(sql);
 
             sql = "INSERT INTO Railway.ROUTES (ID, Name, SourceID, DestID) VALUES " +
                     "('1', 'Route1', '1', '2'), " +
@@ -183,7 +211,7 @@ public class Database {
                     "('5', 'Route5', '3', '2')," +
                     "('6', 'Route6', '2', '1')";
 
-            stmt.executeUpdate(sql); //Works
+            stmt.executeUpdate(sql);
 
             sql = "INSERT INTO Railway.SCHEDULE (ID, TrainID, RouteID, DepartTime, ArriveTime) VALUES " +
                     "('1', '1', '1', '00:00', '1:00')," +
@@ -199,7 +227,7 @@ public class Database {
                     "('1', 'Adult', '15.99')," +
                     "('2', 'Child', '6.99')," +
                     "('3', 'Senior', '9.99')";
-            stmt.executeUpdate(sql); //Works
+            stmt.executeUpdate(sql);
 
             sql = "INSERT INTO Railway.TICKETS (ID, ScheduleID, TypeID) VALUES " +
                     "('1001', '1', '1')," +
@@ -218,7 +246,9 @@ public class Database {
             stmt.executeUpdate(sql);
         }
         catch (Exception e) {
-
+            e.printStackTrace();
+            System.err.println(e.getClass().getName()+": "+e.getMessage());
+            System.exit(0);
         }
     }
 }
