@@ -189,8 +189,20 @@ public class TrainDatabaseGUI {
 		ticketTypesDrop.addItem("Select From...");
 		passengerDrop.addItem("Select From...");
 		
+				// change the last word in each for loop to determine what shows up
+				// in the dropdown (may need to change the itemlistener for the
+				// corresponding dropdown a little)
+		
 		for (int i = 0; i < cargoTypeLibrary.cargoTypeList.size(); ++i) 
 			cargoTypeDrop.addItem(cargoTypeLibrary.cargoTypeList.get(i).Type);
+		for (int i = 0; i < trainModelsLibrary.trainModelsList.size(); ++i)
+			trainModelsDrop.addItem(trainModelsLibrary.trainModelsList.get(i).Name);
+		for (int i = 0; i < trainLibrary.trainList.size(); ++i)
+			trainDrop.addItem(trainLibrary.trainList.get(i).name);
+		for (int i = 0; i < scheduleLibrary.scheduleList.size(); ++i)
+			scheduleDrop.addItem(scheduleLibrary.scheduleList.get(i).departTime);
+		for (int i = 0; i < routeLibrary.routeList.size(); ++i)
+			routeDrop.addItem(routeLibrary.routeList.get(i).Name);
 		
 		// cargoType panel setup
 		
