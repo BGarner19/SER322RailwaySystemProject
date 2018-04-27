@@ -1,18 +1,50 @@
 package ui;
 
 import javax.swing.*;
+
+import org.json.JSONException;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+
 import classes.*;
 import database.Database;
+import Libraries.*;
 
 
 public class TrainDatabaseGUI {
 
     private Database database;
 
-	public TrainDatabaseGUI() {
-	    //database = new Database(5432, "Team6RailwayDB", "postgres", "322");
+    private CargoTypeLibrary cargoTypeLibrary;
+    private LocationLibrary locationLibrary;
+    private PassengerLibrary passengerLibrary;
+    private RouteLibrary routeLibrary;
+    private ScheduleLibrary scheduleLibrary;
+    private StationLibrary stationLibrary;
+    private TicketLibrary ticketLibrary;
+    private TicketTypesLibrary ticketTypesLibrary;
+    private TrainLibrary trainLibrary;
+    private TrainModelsLibrary trainModelsLibrary;
+    
+    
+    
+    
+    
+	public TrainDatabaseGUI() throws IOException, JSONException {
+	    database = new Database(5432, "Team6RailwayDB", "postgres", "322");
+	    cargoTypeLibrary = new CargoTypeLibrary("cargoType.json");
+	    locationLibrary = new LocationLibrary("location.json");
+	    passengerLibrary = new PassengerLibrary("passenger.json");
+	    routeLibrary = new RouteLibrary("route.json");
+	    scheduleLibrary = new ScheduleLibrary("schedule.json");
+	    stationLibrary = new StationLibrary("station.json");
+	    ticketLibrary = new TicketLibrary("ticket.json");
+	    ticketTypesLibrary = new TicketTypesLibrary("ticketTypes.json");
+	    trainLibrary = new TrainLibrary("train.json");
+	    trainModelsLibrary = new TrainModelsLibrary("trainModels.json");
+
 		init();
 	}
 	
@@ -156,7 +188,13 @@ public class TrainDatabaseGUI {
 		
 		cargoTypeAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				CargoType c = new CargoType((Integer.parseInt(cargoTypeIDField.getText())), cargoTypeTypeField.getText());
+				cargoTypeLibrary.cargoTypeList.add(c);
+				try {
+					cargoTypeLibrary.ExportJSON();
+				} catch (JSONException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -200,7 +238,14 @@ public class TrainDatabaseGUI {
 		
 		trainModelsAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				TrainModels tm = new TrainModels((Integer.parseInt(trainModelsIDField.getText())), trainModelsNameField.getText(), (Integer.parseInt(trainModelsWeightField.getText())), (Integer.parseInt(trainModelsCargoIDField.getText())), (Integer.parseInt((trainModelsNumberOfCarsField.getText()))), (Integer.parseInt(trainModelsCapacityField.getText())), (Integer.parseInt(trainModelsCapacityField.getText())));
+				trainModelsLibrary.trainModelsList.add(tm);
 				
+				try {
+					trainModelsLibrary.ExportJSON();
+				} catch (JSONException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -217,6 +262,14 @@ public class TrainDatabaseGUI {
 		
 		trainAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Train t = new Train(Integer.parseInt(trainIDField.getText()),trainNameField.getText(), Integer.parseInt(trainModelIDField.getText()));
+				trainLibrary.trainList.add(t);
+				
+				try {
+					trainLibrary.ExportJSON();
+				} catch (JSONException e1) {
+					e1.printStackTrace();
+				}
 				
 			}
 		});
@@ -228,12 +281,20 @@ public class TrainDatabaseGUI {
 		
 		scheduleSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+			
 			}
 		});
 		
 		scheduleAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Schedule s = new Schedule(Integer.parseInt(scheduleIDField.getText()), Integer.parseInt(scheduleTrainIDField.getText()), Integer.parseInt(scheduleRouteIDField.getText()), scheduleDepartTimeField.getText(), scheduleArriveTimeField.getText());
+				
+				scheduleLibrary.scheduleList.add(s);
+				try {
+				scheduleLibrary.ExportJSON();
+				}catch(JSONException e1) {
+					e1.printStackTrace();
+				}
 				
 			}
 		});
@@ -244,13 +305,21 @@ public class TrainDatabaseGUI {
 		routePanel.add(new JLabel("Route", JLabel.CENTER)); routePanel.add(routeIDField); routePanel.add(routeNameField); routePanel.add(routeSrcStationIDField); routePanel.add(routeDestStationIDField); routePanel.add(new JLabel()); routePanel.add(new JLabel()); routePanel.add(new JLabel()); routePanel.add(routeDrop); routePanel.add(routeSearch); routePanel.add(routeAdd);
 		
 		routeSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {		
 				
 			}
 		});
 		
 		routeAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Route r = new Route(Integer.parseInt(routeIDField.getText()), routeNameField.getText(), Integer.parseInt(routeSrcStationIDField.getText()), Integer.parseInt(routeDestStationIDField.getText()));
+				routeLibrary.routeList.add(r);
+				
+				try {
+					routeLibrary.ExportJSON();
+				} catch (JSONException e1) {
+					e1.printStackTrace();
+				}
 				
 			}
 		});
@@ -268,7 +337,14 @@ public class TrainDatabaseGUI {
 		
 		stationAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Station st = new Station(Integer.parseInt(stationIDField.getText()), stationNameField.getText());
+				stationLibrary.stationList.add(st);
 				
+				try {
+					stationLibrary.ExportJSON();
+				} catch (JSONException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -285,6 +361,14 @@ public class TrainDatabaseGUI {
 		
 		locationAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Location l = new Location(locationAddressField.getText(), Integer.parseInt(locationStationIDField.getText()));
+				locationLibrary.locationList.add(l);
+				
+				try {
+					locationLibrary.ExportJSON();
+				} catch (JSONException e1) {
+					e1.printStackTrace();
+				}
 				
 			}
 		});
@@ -302,6 +386,14 @@ public class TrainDatabaseGUI {
 		
 		ticketAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Ticket ti = new Ticket(Integer.parseInt(ticketIDField.getText()), Integer.parseInt(ticketTypeIDField.getText()), Integer.parseInt(ticketScheduleIDField.getText()));
+				ticketLibrary.ticketList.add(ti);
+				
+				try {
+					ticketLibrary.ExportJSON();
+				} catch (JSONException e1) {
+					e1.printStackTrace();
+				}
 				
 			}
 		});
@@ -319,7 +411,14 @@ public class TrainDatabaseGUI {
 		
 		ticketTypesAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				TicketTypes tt = new TicketTypes(Integer.parseInt(ticketTypesIDField.getText()), ticketTypesTypeField.getText(), Integer.parseInt(ticketTypesPriceField.getText()));
+				ticketTypesLibrary.ticketTypesList.add(tt);
 				
+				try {
+					ticketTypesLibrary.ExportJSON();
+				} catch (JSONException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -336,7 +435,14 @@ public class TrainDatabaseGUI {
 		
 		passengerAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Passenger p = new Passenger(Integer.parseInt(passengerIDField.getText()), Integer.parseInt(passengerTicketIDField.getText()), passengerFirstNameField.getText(), passengerLastNameField.getText());
+				passengerLibrary.passengerList.add(p);
 				
+				try {
+					passengerLibrary.ExportJSON();
+				} catch (JSONException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 

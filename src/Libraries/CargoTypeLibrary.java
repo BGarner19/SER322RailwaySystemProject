@@ -20,6 +20,7 @@ public class CargoTypeLibrary {
 	//Import constructor
 	public CargoTypeLibrary(String location) throws IOException, JSONException {
 		FileInputStream file = new FileInputStream(location);
+		
 		JSONObject jsonObject = new JSONObject(new JSONTokener(file));
 		String[] objectName = JSONObject.getNames(jsonObject);
 		

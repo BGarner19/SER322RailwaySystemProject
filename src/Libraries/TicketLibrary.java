@@ -52,7 +52,7 @@ public class TicketLibrary {
 			Ticket temp = ticketList.get(i);
 			tempJson.put("ID", temp.ID);
 			tempJson.put("TypeID", temp.TypeID);
-			tempJson.put("ScheduleID", temp.ScheduleID);
+			tempJson.put("scheduleID", temp.ScheduleID);
 
 			exportJson.put(Integer.toString(temp.ID), tempJson);
 		}
