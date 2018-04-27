@@ -200,9 +200,19 @@ public class TrainDatabaseGUI {
 		for (int i = 0; i < trainLibrary.trainList.size(); ++i)
 			trainDrop.addItem(trainLibrary.trainList.get(i).name);
 		for (int i = 0; i < scheduleLibrary.scheduleList.size(); ++i)
-			scheduleDrop.addItem(scheduleLibrary.scheduleList.get(i).departTime);
+			scheduleDrop.addItem(scheduleLibrary.scheduleList.get(i).ID);
 		for (int i = 0; i < routeLibrary.routeList.size(); ++i)
 			routeDrop.addItem(routeLibrary.routeList.get(i).Name);
+		for (int i = 0; i < stationLibrary.stationList.size(); ++i)
+			stationDrop.addItem(stationLibrary.stationList.get(i).Name);
+		for (int i = 0; i < locationLibrary.locationList.size(); ++i)
+			locationDrop.addItem(locationLibrary.locationList.get(i).Address);
+		for (int i = 0; i < ticketLibrary.ticketList.size(); ++i)
+			ticketDrop.addItem(ticketLibrary.ticketList.get(i).ID);
+		for (int i = 0; i < ticketTypesLibrary.ticketTypesList.size(); ++i)
+			ticketTypesDrop.addItem(ticketTypesLibrary.ticketTypesList.get(i).Type);
+		for (int i = 0; i < passengerLibrary.passengerList.size(); ++i)
+			passengerDrop.addItem(passengerLibrary.passengerList.get(i).ID);
 		
 		// cargoType panel setup
 		
@@ -226,9 +236,7 @@ public class TrainDatabaseGUI {
 				}
 			}
 		});
-		
-// testing list selection (will work much better with json but this gives a good idea of how it will work)
-		
+	
 		cargoTypeDrop.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				try {
@@ -250,8 +258,6 @@ public class TrainDatabaseGUI {
 				}
 			}
 		});
-		
-// end test
 		
 		// trainModels panel setup
 				
