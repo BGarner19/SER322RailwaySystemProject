@@ -23,6 +23,10 @@ public class TrainDatabaseGUI {
 	JPanel schedulePanel = new JPanel(new GridLayout(2,11));
 	JPanel routePanel = new JPanel(new GridLayout(2,11));
 	JPanel stationPanel = new JPanel(new GridLayout(2,11));
+	JPanel locationPanel = new JPanel(new GridLayout(2,11));
+	JPanel ticketPanel = new JPanel(new GridLayout(2,11));
+	JPanel ticketTypesPanel = new JPanel(new GridLayout(2,11));
+	JPanel passengerPanel = new JPanel(new GridLayout(2,11));
 	
 	// cargoType panel stuff
 	
@@ -82,6 +86,42 @@ public class TrainDatabaseGUI {
 	JButton stationAdd = new JButton("Add");	
 	JTextField stationIDField = new JTextField();
 	JTextField stationNameField = new JTextField();
+	
+	// location panel stuff
+	
+	JComboBox<Location> locationDrop = new JComboBox<Location>();	
+	JButton locationSearch = new JButton("Search");
+	JButton locationAdd = new JButton("Add");	
+	JTextField locationAddressField = new JTextField();
+	JTextField locationStationIDField = new JTextField();
+	
+	// ticket panel stuff
+	
+	JComboBox<Ticket> ticketDrop = new JComboBox<Ticket>();	
+	JButton ticketSearch = new JButton("Search");
+	JButton ticketAdd = new JButton("Add");	
+	JTextField ticketIDField = new JTextField();
+	JTextField ticketTypeIDField = new JTextField();
+	JTextField ticketScheduleIDField = new JTextField();
+	
+	// ticketTypes panel stuff
+	
+	JComboBox<TicketTypes> ticketTypesDrop = new JComboBox<TicketTypes>();	
+	JButton ticketTypesSearch = new JButton("Search");
+	JButton ticketTypesAdd = new JButton("Add");	
+	JTextField ticketTypesIDField = new JTextField();
+	JTextField ticketTypesTypeField = new JTextField();
+	JTextField ticketTypesPriceField = new JTextField();
+	
+	// passenger panel stuff
+	
+	JComboBox<Passenger> passengerDrop = new JComboBox<Passenger>();	
+	JButton passengerSearch = new JButton("Search");
+	JButton passengerAdd = new JButton("Add");	
+	JTextField passengerIDField = new JTextField();
+	JTextField passengerTicketIDField = new JTextField();
+	JTextField passengerFirstNameField = new JTextField();
+	JTextField passengerLastNameField = new JTextField();
 
 	void init() {
 		
@@ -115,6 +155,27 @@ public class TrainDatabaseGUI {
 		stationPanel.add(new JLabel()); stationPanel.add(new JLabel("ID", JLabel.CENTER)); stationPanel.add(new JLabel("Name", JLabel.CENTER)); stationPanel.add(new JLabel()); stationPanel.add(new JLabel()); stationPanel.add(new JLabel()); stationPanel.add(new JLabel()); stationPanel.add(new JLabel()); stationPanel.add(new JLabel()); stationPanel.add(new JLabel()); stationPanel.add(new JLabel());
 		stationPanel.add(new JLabel("Station", JLabel.CENTER)); stationPanel.add(stationIDField); stationPanel.add(stationNameField); stationPanel.add(new JLabel()); stationPanel.add(new JLabel()); stationPanel.add(new JLabel()); stationPanel.add(new JLabel()); stationPanel.add(new JLabel()); stationPanel.add(stationDrop); stationPanel.add(stationSearch); stationPanel.add(stationAdd);
 		
+		// location panel setup
+		
+		locationPanel.add(new JLabel()); locationPanel.add(new JLabel("Address", JLabel.CENTER)); locationPanel.add(new JLabel("Station ID", JLabel.CENTER)); locationPanel.add(new JLabel()); locationPanel.add(new JLabel()); locationPanel.add(new JLabel()); locationPanel.add(new JLabel()); locationPanel.add(new JLabel()); locationPanel.add(new JLabel()); locationPanel.add(new JLabel()); locationPanel.add(new JLabel());
+		locationPanel.add(new JLabel("Location", JLabel.CENTER)); locationPanel.add(locationAddressField); locationPanel.add(locationStationIDField); locationPanel.add(new JLabel()); locationPanel.add(new JLabel()); locationPanel.add(new JLabel()); locationPanel.add(new JLabel()); locationPanel.add(new JLabel()); locationPanel.add(locationDrop); locationPanel.add(locationSearch); locationPanel.add(locationAdd);
+		
+		// ticket panel setup
+		
+		ticketPanel.add(new JLabel()); ticketPanel.add(new JLabel("ID", JLabel.CENTER)); ticketPanel.add(new JLabel("Type ID", JLabel.CENTER)); ticketPanel.add(new JLabel("Schedule ID", JLabel.CENTER)); ticketPanel.add(new JLabel()); ticketPanel.add(new JLabel()); ticketPanel.add(new JLabel()); ticketPanel.add(new JLabel()); ticketPanel.add(new JLabel()); ticketPanel.add(new JLabel()); ticketPanel.add(new JLabel());
+		ticketPanel.add(new JLabel("Ticket", JLabel.CENTER)); ticketPanel.add(ticketIDField); ticketPanel.add(ticketTypeIDField); ticketPanel.add(ticketScheduleIDField); ticketPanel.add(new JLabel()); ticketPanel.add(new JLabel()); ticketPanel.add(new JLabel()); ticketPanel.add(new JLabel()); ticketPanel.add(ticketDrop); ticketPanel.add(ticketSearch); ticketPanel.add(ticketAdd);
+
+		// ticketType panel setup
+		
+		ticketTypesPanel.add(new JLabel()); ticketTypesPanel.add(new JLabel("ID", JLabel.CENTER)); ticketTypesPanel.add(new JLabel("Type", JLabel.CENTER)); ticketTypesPanel.add(new JLabel("Price", JLabel.CENTER)); ticketTypesPanel.add(new JLabel()); ticketTypesPanel.add(new JLabel()); ticketTypesPanel.add(new JLabel()); ticketTypesPanel.add(new JLabel()); ticketTypesPanel.add(new JLabel()); ticketTypesPanel.add(new JLabel()); ticketTypesPanel.add(new JLabel());
+		ticketTypesPanel.add(new JLabel("Ticket Types", JLabel.CENTER)); ticketTypesPanel.add(ticketTypesIDField); ticketTypesPanel.add(ticketTypesTypeField); ticketTypesPanel.add(ticketTypesPriceField); ticketTypesPanel.add(new JLabel()); ticketTypesPanel.add(new JLabel()); ticketTypesPanel.add(new JLabel()); ticketTypesPanel.add(new JLabel()); ticketTypesPanel.add(ticketTypesDrop); ticketTypesPanel.add(ticketTypesSearch); ticketTypesPanel.add(ticketTypesAdd);
+
+		// passenger panel setup
+		
+		passengerPanel.add(new JLabel()); passengerPanel.add(new JLabel("ID", JLabel.CENTER)); passengerPanel.add(new JLabel("Ticket ID", JLabel.CENTER)); passengerPanel.add(new JLabel("First Name", JLabel.CENTER)); passengerPanel.add(new JLabel("Last Name", JLabel.CENTER)); passengerPanel.add(new JLabel()); passengerPanel.add(new JLabel()); passengerPanel.add(new JLabel()); passengerPanel.add(new JLabel()); passengerPanel.add(new JLabel()); passengerPanel.add(new JLabel());
+		passengerPanel.add(new JLabel("Passenger", JLabel.CENTER)); passengerPanel.add(passengerIDField); passengerPanel.add(passengerTicketIDField); passengerPanel.add(passengerFirstNameField); passengerPanel.add(passengerLastNameField); passengerPanel.add(new JLabel()); passengerPanel.add(new JLabel()); passengerPanel.add(new JLabel()); passengerPanel.add(passengerDrop); passengerPanel.add(passengerSearch); passengerPanel.add(passengerAdd);
+	
+		
 		// actual panel setup (add with each new class)
 		
 		panel.add(cargoTypePanel);
@@ -123,6 +184,10 @@ public class TrainDatabaseGUI {
 		panel.add(schedulePanel);
 		panel.add(routePanel);
 		panel.add(stationPanel);
+		panel.add(locationPanel);
+		panel.add(ticketPanel);
+		panel.add(ticketTypesPanel);
+		panel.add(passengerPanel);
 		frame.add(panel);
 		
 		// visibility (add with each new class)
@@ -133,6 +198,10 @@ public class TrainDatabaseGUI {
 		schedulePanel.setVisible(true);
 		routePanel.setVisible(true);
 		stationPanel.setVisible(true);
+		locationPanel.setVisible(true);
+		ticketPanel.setVisible(true);
+		ticketTypesPanel.setVisible(true);
+		passengerPanel.setVisible(true);
 		panel.setVisible(true);
 		
 		// frame setup
