@@ -241,8 +241,8 @@ public class TrainDatabaseGUI {
 			public void itemStateChanged(ItemEvent e) {
 				try {
 					if (cargoTypeDrop.getSelectedItem().equals("Select From...")) {
-						cargoTypeIDField.setText("");
-						cargoTypeTypeField.setText("");
+						//cargoTypeIDField.setText("");
+						//cargoTypeTypeField.setText("");
 					}
 					else {
 						for (int i = 0; i < cargoTypeLibrary.cargoTypeList.size(); ++i) {
@@ -286,14 +286,15 @@ public class TrainDatabaseGUI {
 		trainModelsDrop.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				try {
+					if(trainModelsDrop.getSelectedItem() != null) {
 					if (trainModelsDrop.getSelectedItem().equals("Select From...")) {
-						trainModelsIDField.setText("");
-						trainModelsNameField.setText("");
-						trainModelsWeightField.setText("");
-						trainModelsCargoIDField.setText("");
-						trainModelsNumberOfCarsField.setText("");
-						trainModelsCapacityField.setText("");
-						trainModelsWeightLimitField.setText("");
+						//trainModelsIDField.setText("");
+						//trainModelsNameField.setText("");
+						//trainModelsWeightField.setText("");
+						//trainModelsCargoIDField.setText("");
+						//trainModelsNumberOfCarsField.setText("");
+						//trainModelsCapacityField.setText("");
+						//trainModelsWeightLimitField.setText("");
 					}
 					else {
 						for (int i = 0; i < trainModelsLibrary.trainModelsList.size(); ++i) {
@@ -308,6 +309,7 @@ public class TrainDatabaseGUI {
 							}
 						}
 					}
+				}
 				}
 				catch (Exception ex) {
 					System.out.println(ex.getMessage());
@@ -345,10 +347,11 @@ public class TrainDatabaseGUI {
 		trainDrop.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				try {
+					if(trainDrop.getSelectedItem() != null) {
 					if (trainDrop.getSelectedItem().equals("Select From...")) {
-						trainIDField.setText("");
-						trainNameField.setText("");
-						trainModelIDField.setText("");
+						//trainIDField.setText("");
+						//trainNameField.setText("");
+						//trainModelIDField.setText("");
 						
 					}
 					else {
@@ -360,6 +363,7 @@ public class TrainDatabaseGUI {
 							}
 						}
 					}
+				}
 				}
 				catch (Exception ex) {
 					System.out.println(ex.getMessage());
@@ -401,12 +405,13 @@ public class TrainDatabaseGUI {
 		scheduleDrop.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				try {
+					if(scheduleDrop.getSelectedItem() != null) {
 					if (scheduleDrop.getSelectedItem().equals("Select From...")) {
-						scheduleIDField.setText("");
-						scheduleTrainIDField.setText("");
-						scheduleRouteIDField.setText("");
-						scheduleDepartTimeField.setText("");
-						scheduleArriveTimeField.setText("");
+						//scheduleIDField.setText("");
+						//scheduleTrainIDField.setText("");
+						//scheduleRouteIDField.setText("");
+						//scheduleDepartTimeField.setText("");
+						//scheduleArriveTimeField.setText("");
 
 					}
 					else {
@@ -420,6 +425,7 @@ public class TrainDatabaseGUI {
 							}
 						}
 					}
+				}
 				}
 				catch (Exception ex) {
 					System.out.println(ex.getMessage());
@@ -460,11 +466,12 @@ public class TrainDatabaseGUI {
 		routeDrop.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				try {
+					if(routeDrop.getSelectedItem() != null) {
 					if (routeDrop.getSelectedItem().equals("Select From...")) {
-						routeIDField.setText("");
-						routeNameField.setText("");
-						routeSrcStationIDField.setText("");
-						routeDestStationIDField.setText("");
+						//routeIDField.setText("");
+						//routeNameField.setText("");
+						//routeSrcStationIDField.setText("");
+						//routeDestStationIDField.setText("");
 						
 						
 					}
@@ -478,6 +485,7 @@ public class TrainDatabaseGUI {
 							}
 						}
 					}
+				}
 				}
 				catch (Exception ex) {
 					System.out.println(ex.getMessage());
@@ -517,9 +525,10 @@ public class TrainDatabaseGUI {
 		stationDrop.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				try {
+					if(stationDrop.getSelectedItem() != null) {
 					if (stationDrop.getSelectedItem().equals("Select From...")) {
-						stationIDField.setText("");
-						stationNameField.setText("");
+						//stationIDField.setText("");
+						//stationNameField.setText("");
 
 						
 						
@@ -532,6 +541,7 @@ public class TrainDatabaseGUI {
 							}
 						}
 					}
+				}
 				}
 				catch (Exception ex) {
 					System.out.println(ex.getMessage());
@@ -577,9 +587,10 @@ public class TrainDatabaseGUI {
 		locationDrop.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				try {
+					if(locationDrop.getSelectedItem() != null) {
 					if (locationDrop.getSelectedItem().equals("Select From...")) {
-						locationAddressField.setText("");
-						locationStationIDField.setText("");
+						//locationAddressField.setText("");
+						//locationStationIDField.setText("");
 
 						
 						
@@ -592,6 +603,7 @@ public class TrainDatabaseGUI {
 							}
 						}
 					}
+				}
 				}
 				catch (Exception ex) {
 					System.out.println(ex.getMessage());
@@ -636,13 +648,14 @@ public class TrainDatabaseGUI {
 		ticketDrop.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				try {
-					if (ticketDrop.getSelectedItem().equals("Select From...")) {
-						ticketIDField.setText("");
-						ticketTypeIDField.setText("");
-						ticketScheduleIDField.setText("");
-
-
+					if(ticketDrop.getSelectedItem() != null) {
+						if (ticketDrop.getSelectedItem().equals("Select From...")) {
+							//ticketIDField.setText("");
+							//ticketTypeIDField.setText("");
+							//ticketScheduleIDField.setText("");
 					}
+
+				
 					else {
 						for (int i = 0; i < ticketLibrary.ticketList.size(); ++i) {
 							if (ticketLibrary.ticketList.get(i).ID == (Integer) ticketDrop.getSelectedItem()) {
@@ -652,6 +665,7 @@ public class TrainDatabaseGUI {
 							}
 						}
 					}
+				}
 				}
 				catch (Exception ex) {
 					System.out.println(ex.getMessage());
@@ -691,13 +705,15 @@ public class TrainDatabaseGUI {
 		ticketTypesDrop.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				try {
-					if (ticketTypesDrop.getSelectedItem().equals("Select From...")) {
-						ticketTypesIDField.setText("");
-						ticketTypesTypeField.setText("");
-						ticketTypesPriceField.setText("");
+					if(ticketTypesDrop.getSelectedItem()!= null) {
+						if (ticketTypesDrop.getSelectedItem().equals("Select From...")) {
+							//ticketTypesIDField.setText("");
+							//ticketTypesTypeField.setText("");
+							//ticketTypesPriceField.setText("");
+						
+						}
 
-
-					}
+					
 					else {
 						for (int i = 0; i < ticketTypesLibrary.ticketTypesList.size(); ++i) {
 							if (TicketTypesLibrary.ticketTypesList.get(i).Type.equals(ticketTypesDrop.getSelectedItem())) {
@@ -707,6 +723,7 @@ public class TrainDatabaseGUI {
 							}
 						}
 					}
+				}
 				}
 				catch (Exception ex) {
 					System.out.println(ex.getMessage());
@@ -735,7 +752,6 @@ public class TrainDatabaseGUI {
 			public void actionPerformed(ActionEvent e) {
 				Passenger p = new Passenger(Integer.parseInt(passengerIDField.getText()), Integer.parseInt(passengerTicketIDField.getText()), passengerFirstNameField.getText(), passengerLastNameField.getText());
 				passengerLibrary.passengerList.add(p);
-				
 				try {
 					passengerLibrary.ExportJSON();
 				} catch (JSONException e1) {
@@ -750,13 +766,15 @@ public class TrainDatabaseGUI {
 		passengerDrop.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				try {
-					if (passengerDrop.getSelectedItem().equals("Select From...")) {
-						passengerIDField.setText("");
-						passengerTicketIDField.setText("");
-						passengerFirstNameField.setText("");
-						passengerLastNameField.setText("");
+					if(passengerDrop.getSelectedItem() != null) {
+						if (passengerDrop.getSelectedItem().equals("Select From...")) {
+							//passengerIDField.setText("");
+							//passengerTicketIDField.setText("");
+							//passengerFirstNameField.setText("");
+							//passengerLastNameField.setText("");
+						}
 
-					}
+					
 					else {
 						for (int i = 0; i < passengerLibrary.passengerList.size(); ++i) {
 							if (passengerLibrary.passengerList.get(i).ID == (Integer) passengerDrop.getSelectedItem()) {
@@ -767,6 +785,7 @@ public class TrainDatabaseGUI {
 							}
 						}
 					}
+				}
 				}
 				catch (Exception ex) {
 					System.out.println(ex.getMessage());
