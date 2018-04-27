@@ -3,6 +3,7 @@ package ui;
 import javax.swing.*;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -33,7 +34,7 @@ public class TrainDatabaseGUI {
     
     
 	public TrainDatabaseGUI() throws IOException, JSONException {
-	    database = new Database(5432, "Team6RailwayDB", "postgres", "322");
+	    //database = new Database(5432, "Team6RailwayDB", "postgres", "322");
 	    cargoTypeLibrary = new CargoTypeLibrary("cargoType.json");
 	    locationLibrary = new LocationLibrary("location.json");
 	    passengerLibrary = new PassengerLibrary("passenger.json");
@@ -71,7 +72,7 @@ public class TrainDatabaseGUI {
 	
 	// cargoType panel stuff
 	
-	JComboBox cargoTypeDrop = new JComboBox();	
+	JComboBox cargoTypeDrop = new JComboBox<CargoType>();	
 	JButton cargoTypeSearch = new JButton("Search");
 	JButton cargoTypeAdd = new JButton("Add");	
 	JTextField cargoTypeIDField = new JTextField();
@@ -79,7 +80,7 @@ public class TrainDatabaseGUI {
 	
 	// trainModels panel stuff
 	
-	JComboBox<TrainModels> trainModelsDrop = new JComboBox<TrainModels>();	
+	JComboBox trainModelsDrop = new JComboBox<TrainModels>();	
 	JButton trainModelsSearch = new JButton("Search");
 	JButton trainModelsAdd = new JButton("Add");	
 	JTextField trainModelsIDField = new JTextField();
@@ -92,7 +93,7 @@ public class TrainDatabaseGUI {
 	
 	// train panel stuff
 	
-	JComboBox<Train> trainDrop = new JComboBox<Train>();	
+	JComboBox trainDrop = new JComboBox<Train>();	
 	JButton trainSearch = new JButton("Search");
 	JButton trainAdd = new JButton("Add");	
 	JTextField trainIDField = new JTextField();
@@ -101,7 +102,7 @@ public class TrainDatabaseGUI {
 	
 	// schedule panel stuff
 	
-	JComboBox<Schedule> scheduleDrop = new JComboBox<Schedule>();	
+	JComboBox scheduleDrop = new JComboBox<Schedule>();	
 	JButton scheduleSearch = new JButton("Search");
 	JButton scheduleAdd = new JButton("Add");	
 	JTextField scheduleIDField = new JTextField();
@@ -112,7 +113,7 @@ public class TrainDatabaseGUI {
 	
 	// route panel stuff
 	
-	JComboBox<Route> routeDrop = new JComboBox<Route>();	
+	JComboBox routeDrop = new JComboBox<Route>();	
 	JButton routeSearch = new JButton("Search");
 	JButton routeAdd = new JButton("Add");	
 	JTextField routeIDField = new JTextField();
@@ -122,7 +123,7 @@ public class TrainDatabaseGUI {
 	
 	// station panel stuff
 	
-	JComboBox<Station> stationDrop = new JComboBox<Station>();	
+	JComboBox stationDrop = new JComboBox<Station>();	
 	JButton stationSearch = new JButton("Search");
 	JButton stationAdd = new JButton("Add");	
 	JTextField stationIDField = new JTextField();
@@ -130,7 +131,7 @@ public class TrainDatabaseGUI {
 	
 	// location panel stuff
 	
-	JComboBox<Location> locationDrop = new JComboBox<Location>();	
+	JComboBox locationDrop = new JComboBox<Location>();	
 	JButton locationSearch = new JButton("Search");
 	JButton locationAdd = new JButton("Add");	
 	JTextField locationAddressField = new JTextField();
@@ -138,7 +139,7 @@ public class TrainDatabaseGUI {
 	
 	// ticket panel stuff
 	
-	JComboBox<Ticket> ticketDrop = new JComboBox<Ticket>();	
+	JComboBox ticketDrop = new JComboBox<Ticket>();	
 	JButton ticketSearch = new JButton("Search");
 	JButton ticketAdd = new JButton("Add");	
 	JTextField ticketIDField = new JTextField();
@@ -147,7 +148,7 @@ public class TrainDatabaseGUI {
 	
 	// ticketTypes panel stuff
 	
-	JComboBox<TicketTypes> ticketTypesDrop = new JComboBox<TicketTypes>();	
+	JComboBox ticketTypesDrop = new JComboBox<TicketTypes>();	
 	JButton ticketTypesSearch = new JButton("Search");
 	JButton ticketTypesAdd = new JButton("Add");	
 	JTextField ticketTypesIDField = new JTextField();
@@ -156,7 +157,7 @@ public class TrainDatabaseGUI {
 	
 	// passenger panel stuff
 	
-	JComboBox<Passenger> passengerDrop = new JComboBox<Passenger>();	
+	JComboBox passengerDrop = new JComboBox<Passenger>();	
 	JButton passengerSearch = new JButton("Search");
 	JButton passengerAdd = new JButton("Add");	
 	JTextField passengerIDField = new JTextField();
@@ -174,6 +175,21 @@ public class TrainDatabaseGUI {
 	// setting up panels
 
 	void init() {
+		
+		// combobox setups
+		
+		cargoTypeDrop.addItem("Select From...");
+		trainModelsDrop.addItem("Select From...");
+		trainDrop.addItem("Select From...");
+		scheduleDrop.addItem("Select From...");
+		routeDrop.addItem("Select From...");
+		stationDrop.addItem("Select From...");
+		locationDrop.addItem("Select From...");
+		ticketDrop.addItem("Select From...");
+		ticketTypesDrop.addItem("Select From...");
+		passengerDrop.addItem("Select From...");
+		
+		for (int i = 0; i < cargoTypeLibrary.cargoTypeList.size(); ++i) cargoTypeDrop.addItem(cargoTypeLibrary.cargoTypeList.get(i).Type);
 		
 		// cargoType panel setup
 		
@@ -199,10 +215,6 @@ public class TrainDatabaseGUI {
 		});
 		
 // testing list selection (will work much better with json but this gives a good idea of how it will work)
-		
-		CargoType test = new CargoType(2, "Passenger");
-		cargoTypeDrop.addItem("Select From...");
-		cargoTypeDrop.addItem(test);
 		
 		cargoTypeDrop.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
