@@ -4,10 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import classes.*;
+import database.Database;
+
 
 public class TrainDatabaseGUI {
-	
+
+    private Database database;
+
 	public TrainDatabaseGUI() {
+	    database = new Database(5432, "Team6RailwayDB", "postgres", "322");
 		init();
 	}
 	
@@ -15,6 +20,7 @@ public class TrainDatabaseGUI {
 	
 	JFrame frame = new JFrame();
 	JPanel panel = new JPanel(new GridLayout(10,11));
+	JPanel wholePanel = new JPanel(new BorderLayout());
 	
 	// all panel creations (add with each new class + add panel section)
 	
@@ -28,6 +34,7 @@ public class TrainDatabaseGUI {
 	JPanel ticketPanel = new JPanel(new GridLayout(2,11));
 	JPanel ticketTypesPanel = new JPanel(new GridLayout(2,11));
 	JPanel passengerPanel = new JPanel(new GridLayout(2,11));
+	JPanel queryPanel = new JPanel(new GridLayout(1, 2));
 	
 	// cargoType panel stuff
 	
@@ -123,7 +130,12 @@ public class TrainDatabaseGUI {
 	JTextField passengerTicketIDField = new JTextField();
 	JTextField passengerFirstNameField = new JTextField();
 	JTextField passengerLastNameField = new JTextField();
-	
+
+	//Query Panel stuff
+
+    JTextArea queryArea = new JTextArea();
+    JButton queryButton = new JButton("Query Database");
+
 	// setting up panels
 
 	void init() {
@@ -135,7 +147,7 @@ public class TrainDatabaseGUI {
 		
 		cargoTypeSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 			}
 		});
 		
@@ -324,6 +336,31 @@ public class TrainDatabaseGUI {
 				
 			}
 		});
+
+		//Query panel setup
+
+        JScrollPane scrollPane = new JScrollPane(queryArea);
+        queryArea.setFont(new Font("Serif", Font.BOLD, 20));
+        queryArea.setText("Query the Railway database here.\n" +
+                "Remember to prefix table names with the name of the schema (Railway)");
+        queryArea.addFocusListener(new FocusListener() {
+            public void focusGained(FocusEvent e) {
+                queryArea.setText("");
+            }
+
+            public void focusLost(FocusEvent e) {
+
+            }
+        });
+
+        queryPanel.add(scrollPane);
+        queryPanel.add(queryButton);
+
+        queryButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                database.query(queryArea.getText());
+            }
+        });
 		
 		// actual panel setup (add with each new class)
 		
@@ -337,8 +374,11 @@ public class TrainDatabaseGUI {
 		panel.add(ticketPanel);
 		panel.add(ticketTypesPanel);
 		panel.add(passengerPanel);
-		
-		frame.add(panel);
+
+		wholePanel.add(panel, BorderLayout.NORTH);
+		wholePanel.add(queryPanel, BorderLayout.CENTER);
+
+		frame.add(wholePanel);
 		
 		// visibility (add with each new class)
 		
@@ -356,9 +396,10 @@ public class TrainDatabaseGUI {
 		panel.setVisible(true);
 		
 		// frame setup
-		
+
+        frame.setTitle("SER322 Team 6 - Railway System");
 		frame.setVisible(true);
-		frame.getContentPane().add(panel);
+		frame.getContentPane().add(wholePanel);
 		frame.pack();
 		frame.setSize(1500,800);
 		frame.setLocation(200, 100);

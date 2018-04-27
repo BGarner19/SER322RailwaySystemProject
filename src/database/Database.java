@@ -1,7 +1,6 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+package database;
+
+import java.sql.*;
 
 public class Database {
 
@@ -31,6 +30,7 @@ public class Database {
      * After connecting to the database, calls methods to create all of the tables in the database and fill them with
      * data.
      */
+
     private void initDatabase() {
 
         try {
@@ -42,8 +42,6 @@ public class Database {
 
             createTables(c);
             fillTables(c);
-
-            c.close();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -250,5 +248,50 @@ public class Database {
             System.err.println(e.getClass().getName()+": "+e.getMessage());
             System.exit(0);
         }
+    }
+
+    public Connection getDatabaseConnection() {
+
+        try {
+            c = DriverManager
+                    .getConnection("jdbc:postgresql://localhost:" + port + "/" + dbName,
+                            username, password);
+        }
+        catch (SQLException ex) {
+
+        }
+
+        return c;
+    }
+
+    public ResultSet query(String query) {
+
+        System.out.println(query);
+        try {
+
+            ResultSet resultSet = c.createStatement().executeQuery(query);
+
+            ResultSetMetaData rsmd = resultSet.getMetaData();
+
+            int columnsNumber = rsmd.getColumnCount();
+
+            for (int i = 1; i <= columnsNumber; i++) {
+                System.out.printf("%15s ", rsmd.getColumnName(i));
+            }
+
+            System.out.println();
+
+            while (resultSet.next()) {
+                for (int i = 1; i <= columnsNumber; i++) {
+                    System.out.printf("%15s ", resultSet.getString(i));
+                }
+                System.out.println();
+            }
+        }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return null;
     }
 }
