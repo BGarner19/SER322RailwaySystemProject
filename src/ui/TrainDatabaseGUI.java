@@ -32,7 +32,7 @@ public class TrainDatabaseGUI {
     
     
 	public TrainDatabaseGUI() throws IOException, JSONException {
-	    //database = new Database(5432, "Team6RailwayDB", "postgres", "322");
+	    database = new Database(5432, "Team6RailwayDB", "postgres", "322");
 	    cargoTypeLibrary = new CargoTypeLibrary("cargoType.json");
 	    locationLibrary = new LocationLibrary("location.json");
 	    passengerLibrary = new PassengerLibrary("passenger.json");
