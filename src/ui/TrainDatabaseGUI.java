@@ -154,9 +154,15 @@ public class TrainDatabaseGUI {
 		cargoTypeDrop.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				try {
-					CargoType hold = (CargoType) cargoTypeDrop.getSelectedItem();
-					cargoTypeIDField.setText(Integer.toString(hold.ID));
-					cargoTypeTypeField.setText(hold.Type);
+					if (cargoTypeDrop.getSelectedItem().equals("Select From...")) {
+						cargoTypeIDField.setText("");
+						cargoTypeTypeField.setText("");
+					}
+					else {
+						CargoType hold = (CargoType) cargoTypeDrop.getSelectedItem();
+						cargoTypeIDField.setText(Integer.toString(hold.ID));
+						cargoTypeTypeField.setText(hold.Type);
+					}
 				}
 				catch (Exception ex) {
 					System.out.println(ex.getMessage());
