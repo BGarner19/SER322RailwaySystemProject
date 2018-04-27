@@ -12,14 +12,14 @@ public class TrainDatabaseGUI {
     private Database database;
 
 	public TrainDatabaseGUI() {
-	    database = new Database(5432, "Team6RailwayDB", "postgres", "322");
+	    //database = new Database(5432, "Team6RailwayDB", "postgres", "322");
 		init();
 	}
 	
 	// base GUI stuff
 	
 	JFrame frame = new JFrame();
-	JPanel panel = new JPanel(new GridLayout(10,11));
+	JPanel panel = new JPanel(new GridLayout(11,11));
 	JPanel wholePanel = new JPanel(new BorderLayout());
 	
 	// all panel creations (add with each new class + add panel section)
@@ -34,6 +34,7 @@ public class TrainDatabaseGUI {
 	JPanel ticketPanel = new JPanel(new GridLayout(2,11));
 	JPanel ticketTypesPanel = new JPanel(new GridLayout(2,11));
 	JPanel passengerPanel = new JPanel(new GridLayout(2,11));
+	JPanel bufferPanel = new JPanel(new GridLayout(1,0));
 	JPanel queryPanel = new JPanel(new GridLayout(1, 2));
 	
 	// cargoType panel stuff
@@ -135,6 +136,8 @@ public class TrainDatabaseGUI {
 
     JTextArea queryArea = new JTextArea();
     JButton queryButton = new JButton("Query Database");
+    JDialog queryPopout = new JDialog();
+    JPanel queryFramePanel = new JPanel();
 
 	// setting up panels
 
@@ -337,6 +340,10 @@ public class TrainDatabaseGUI {
 			}
 		});
 
+		// buffer panel setup
+		
+		bufferPanel.add(new JLabel());
+		
 		//Query panel setup
 
         JScrollPane scrollPane = new JScrollPane(queryArea);
@@ -345,11 +352,13 @@ public class TrainDatabaseGUI {
                 "Remember to prefix table names with the name of the schema (Railway)");
         queryArea.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
-                queryArea.setText("");
+                if (queryArea.getText().equals("Query the Railway database here.\n" +
+                        "Remember to prefix table names with the name of the schema (Railway)")) queryArea.setText("");
             }
 
             public void focusLost(FocusEvent e) {
-
+            	if (queryArea.getText().equals("")) queryArea.setText("Query the Railway database here.\n" +
+                        "Remember to prefix table names with the name of the schema (Railway)");
             }
         });
 
@@ -359,6 +368,26 @@ public class TrainDatabaseGUI {
         queryButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 database.query(queryArea.getText());
+                
+		        queryPopout.setTitle("Query Results");
+		        queryFramePanel.removeAll();
+
+		        queryFramePanel.add(new JLabel("Stuff Here")); //TODO: Display Query instead of this
+                queryPopout.getContentPane();
+                queryPopout.add(queryFramePanel);
+                
+                queryPopout.addWindowListener(new WindowAdapter() {
+                	@Override
+                	public void windowClosing(WindowEvent e) {
+                		queryPopout.dispose();
+                		queryFramePanel.removeAll();
+                	}
+                });
+                
+                queryPopout.pack();
+                queryPopout.setVisible(true);
+                queryPopout.setSize(500, 500); //TODO: Im not sure if this is the optimal size for the query so change this what you need
+                queryPopout.setLocation(700, 200);
             }
         });
 		
@@ -374,6 +403,7 @@ public class TrainDatabaseGUI {
 		panel.add(ticketPanel);
 		panel.add(ticketTypesPanel);
 		panel.add(passengerPanel);
+		panel.add(bufferPanel);
 
 		wholePanel.add(panel, BorderLayout.NORTH);
 		wholePanel.add(queryPanel, BorderLayout.CENTER);
@@ -392,11 +422,18 @@ public class TrainDatabaseGUI {
 		ticketPanel.setVisible(true);
 		ticketTypesPanel.setVisible(true);
 		passengerPanel.setVisible(true);
-		
+		bufferPanel.setVisible(true);
 		panel.setVisible(true);
 		
 		// frame setup
 
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				System.exit(0);
+			}
+		});
+		
         frame.setTitle("SER322 Team 6 - Railway System");
 		frame.setVisible(true);
 		frame.getContentPane().add(wholePanel);
