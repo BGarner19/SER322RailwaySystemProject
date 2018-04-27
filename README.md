@@ -8,7 +8,7 @@ INSTRUCTIONS FOR SETTING UP THE DATABASE
 4. You must create a database in pgAdmin 4. Create a database using the statement CREATE DATABASE Team6RailwayDB
 5. Note that the program's main method defaults to a database name of Team6RailwayDB. You may create a different named database by changing the call to use your database name. 
 6. This program uses the default installation user "postgres" with a password of "322". This can be set in the database constructor parameters. 
-7. Run the main method in Start.java. The GUI should open and you should find that the database is created and filled with sample data in pgAdmin 4.
+7. Run the main method in Start.java. The GUI should open and you should find that the database is created and filled with sample data. You may need to refresh the pgAdmin 4 database to see changes. 
 
 #Team 6 
 
