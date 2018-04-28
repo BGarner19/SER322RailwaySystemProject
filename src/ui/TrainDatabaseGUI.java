@@ -977,10 +977,13 @@ public class TrainDatabaseGUI {
 							"(SELECT ID FROM railway.TRIPS WHERE ID = '" + routeID + "'))))";
 				}
 
+                JTable queryOut = new JTable(database.query(sql));
+
+
                 queryPopout.setTitle("TRAIN RESULTS");
                 queryFramePanel.removeAll();
 
-                queryFramePanel.add(queryOutput);
+                queryFramePanel.add(queryOut);
                 queryPopout.getContentPane();
                 queryPopout.add(queryFramePanel);
 
@@ -1031,10 +1034,12 @@ public class TrainDatabaseGUI {
 							"(SELECT ID FROM railway.TICKET_TYPES WHERE Type = '" + ticketType + "'))))";
 				}
 
+                JTable queryOut = new JTable(database.query(sql));
+
                 queryPopout.setTitle("PASSENGER RESULTS");
                 queryFramePanel.removeAll();
 
-                queryFramePanel.add(queryOutput);
+                queryFramePanel.add(queryOut);
                 queryPopout.getContentPane();
                 queryPopout.add(queryFramePanel);
 
@@ -1109,10 +1114,12 @@ public class TrainDatabaseGUI {
 							"(SELECT ID FROM Railway.STATIONS WHERE Name = '" + departingStation + "'))))))";
 				}
 
+				JTable queryOut = new JTable(database.query(sql));
+
                 queryPopout.setTitle("TICKET RESULTS");
                 queryFramePanel.removeAll();
 
-                queryFramePanel.add(queryOutput);
+                queryFramePanel.add(queryOut);
                 queryPopout.getContentPane();
                 queryPopout.add(queryFramePanel);
 
