@@ -1,30 +1,21 @@
 package ui;
 
 import javax.swing.*;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
-
-import classes.*;
 import database.Database;
-import Libraries.*;
 
 
 public class TrainDatabaseGUI {
 
     private Database database;
-
     private JTable stationsTable;
     private JTable cargoTypesTable;
     private JTable ticketTypesTable;
     private JTable tripsTable;
     
     
-	public TrainDatabaseGUI() throws IOException, JSONException {
+	public TrainDatabaseGUI() {
 	    database = new Database(5432, "Team6RailwayDB", "postgres", "322");
 		init();
 	}

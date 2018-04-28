@@ -1,9 +1,0 @@
-{"1": {
- "WeightLimit": 5000,
- "Capacity": 12,
- "CargoID": 2,
- "NumberOfCars": 8,
- "ID": 1,
- "Weight": 400,
- "Name": "Freight"
-}}
