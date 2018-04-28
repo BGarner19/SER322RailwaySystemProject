@@ -31,9 +31,9 @@ public class TrainDatabaseGUI {
 
 
     private JTable stationsTable;
-    JTable cargoTypesTable;
-    JTable ticketTypesTable;
-    JTable tripsTable;
+    private JTable cargoTypesTable;
+    private JTable ticketTypesTable;
+    private JTable tripsTable;
     
     
 	public TrainDatabaseGUI() throws IOException, JSONException {
@@ -978,12 +978,13 @@ public class TrainDatabaseGUI {
 				}
 
                 JTable queryOut = new JTable(database.query(sql));
+				JScrollPane spane = new JScrollPane(queryOut);
 
 
                 queryPopout.setTitle("TRAIN RESULTS");
                 queryFramePanel.removeAll();
 
-                queryFramePanel.add(queryOut);
+                queryFramePanel.add(spane);
                 queryPopout.getContentPane();
                 queryPopout.add(queryFramePanel);
 
@@ -997,7 +998,7 @@ public class TrainDatabaseGUI {
 
                 queryPopout.pack();
                 queryPopout.setVisible(true);
-                queryPopout.setSize(400, 400);
+                //queryPopout.setSize(400, 400);
 
                 //queryOutput.setText((database.query(sql)));
 
@@ -1035,11 +1036,12 @@ public class TrainDatabaseGUI {
 				}
 
                 JTable queryOut = new JTable(database.query(sql));
+                JScrollPane spane = new JScrollPane(queryOut);
 
                 queryPopout.setTitle("PASSENGER RESULTS");
                 queryFramePanel.removeAll();
 
-                queryFramePanel.add(queryOut);
+                queryFramePanel.add(spane);
                 queryPopout.getContentPane();
                 queryPopout.add(queryFramePanel);
 
@@ -1053,7 +1055,7 @@ public class TrainDatabaseGUI {
 
                 queryPopout.pack();
                 queryPopout.setVisible(true);
-                queryPopout.setSize(400, 400);
+                //queryPopout.setSize(400, 400);
 
                 //queryOutput.setText((database.query(sql)));
 
@@ -1115,11 +1117,12 @@ public class TrainDatabaseGUI {
 				}
 
 				JTable queryOut = new JTable(database.query(sql));
+                JScrollPane spane = new JScrollPane(queryOut);
 
                 queryPopout.setTitle("TICKET RESULTS");
                 queryFramePanel.removeAll();
 
-                queryFramePanel.add(queryOut);
+                queryFramePanel.add(spane);
                 queryPopout.getContentPane();
                 queryPopout.add(queryFramePanel);
 
@@ -1133,7 +1136,7 @@ public class TrainDatabaseGUI {
 
                 queryPopout.pack();
                 queryPopout.setVisible(true);
-                queryPopout.setSize(400, 400);
+                //queryPopout.setSize(400, 400);
 
                 //queryOutput.setText((database.query(sql)));
 
@@ -1180,11 +1183,12 @@ public class TrainDatabaseGUI {
             public void actionPerformed(ActionEvent e) {
 
                 JTable queryOutput = new JTable(database.query(queryArea.getText()));
+                JScrollPane spane = new JScrollPane(queryOutput);
 
                 queryPopout.setTitle("Query Results");
                 queryFramePanel.removeAll();
 
-                queryFramePanel.add(queryOutput);
+                queryFramePanel.add(spane);
                 queryPopout.getContentPane();
                 queryPopout.add(queryFramePanel);
 
