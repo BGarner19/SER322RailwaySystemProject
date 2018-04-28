@@ -15,6 +15,10 @@ public class TrainDatabaseGUI {
 	    database = new Database(5432, "Team6RailwayDB", "postgres", "322");
 		init();
 	}
+
+	JTabbedPane tabbedPane = new JTabbedPane();
+
+
 	
 	// base GUI stuff
 	
@@ -340,25 +344,24 @@ public class TrainDatabaseGUI {
 		//Query panel setup
 
         JScrollPane scrollPane = new JScrollPane(queryArea);
-        queryArea.setFont(new Font("Serif", Font.BOLD, 20));
+        queryArea.setFont(new Font("Serif", Font.BOLD, 15));
         queryArea.setText("Query the Railway database here.\n" +
                 "Remember to prefix table names with the name of the schema (Railway)");
-        queryArea.addFocusListener(new FocusListener() {
-            public void focusGained(FocusEvent e) {
-                queryArea.setText("");
-            }
-
-            public void focusLost(FocusEvent e) {
-
-            }
-        });
 
         queryPanel.add(scrollPane);
         queryPanel.add(queryButton);
 
+        JPanel outputPanel = new JPanel();
+        outputPanel.setLayout(new BoxLayout(outputPanel, BoxLayout.Y_AXIS));
+        outputPanel.add(queryPanel);
+        JTextArea queryOutput = new JTextArea();
+        queryOutput.setEditable(false);
+        outputPanel.add(queryOutput);
+
+
         queryButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                database.query(queryArea.getText());
+                queryOutput.setText((database.query(queryArea.getText())));
             }
         });
 		
@@ -375,10 +378,16 @@ public class TrainDatabaseGUI {
 		panel.add(ticketTypesPanel);
 		panel.add(passengerPanel);
 
-		wholePanel.add(panel, BorderLayout.NORTH);
-		wholePanel.add(queryPanel, BorderLayout.CENTER);
+//		wholePanel.add(panel, BorderLayout.NORTH);
+//		wholePanel.add(queryPanel, BorderLayout.CENTER);
 
-		frame.add(wholePanel);
+
+
+		tabbedPane.addTab("Quick Actions", new JPanel());
+		tabbedPane.addTab("Manual", outputPanel);
+        tabbedPane.addTab("Main", panel);
+
+		frame.add(tabbedPane);
 		
 		// visibility (add with each new class)
 		
@@ -399,9 +408,9 @@ public class TrainDatabaseGUI {
 
         frame.setTitle("SER322 Team 6 - Railway System");
 		frame.setVisible(true);
-		frame.getContentPane().add(wholePanel);
+		frame.getContentPane().add(tabbedPane);
 		frame.pack();
-		frame.setSize(1500,800);
+		frame.setSize(1500,1000);
 		frame.setLocation(200, 100);
 	}
 }

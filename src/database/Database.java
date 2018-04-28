@@ -262,7 +262,7 @@ public class Database {
         return c;
     }
 
-    public ResultSet query(String query) {
+    public String query(String query) {
 
         System.out.println(query);
         try {
@@ -273,21 +273,32 @@ public class Database {
 
             int columnsNumber = rsmd.getColumnCount();
 
+            StringBuilder output = new StringBuilder();
+
             for (int i = 1; i <= columnsNumber; i++) {
-                System.out.printf("%15s ", rsmd.getColumnName(i));
+
+                output.append(String.format("%15s ", rsmd.getColumnName(i)));
+                //System.out.printf("%15s ", rsmd.getColumnName(i));
             }
 
-            System.out.println();
+            output.append("\n");
+            //System.out.println();
 
             while (resultSet.next()) {
                 for (int i = 1; i <= columnsNumber; i++) {
-                    System.out.printf("%15s ", resultSet.getString(i));
+
+                    output.append(String.format("%15s ", resultSet.getString(i)));
+                    //System.out.printf("%15s ", resultSet.getString(i));
                 }
-                System.out.println();
+
+                output.append("\n");
+                //System.out.println();
             }
+
+            return output.toString();
         }
         catch (SQLException ex) {
-            ex.printStackTrace();
+
         }
 
         return null;
