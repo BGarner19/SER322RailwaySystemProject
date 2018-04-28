@@ -974,12 +974,25 @@ public class TrainDatabaseGUI {
             public void actionPerformed(ActionEvent e) {
 
                 String ticketType = passengersTicketType.getText();
-                String tripID = passengersTicketType.getText();
+                String tripID = passengersTripID.getText();
 
                 String sql = "";
 
+				if(ticketType.equals("") && tripID.equals("")){
+					sql = "SELECT FName, MI, LName FROM Railway.PASSENGERS";
+				} else if(!(ticketType.equals("")) && tripID.equals("")){
+					sql = "SELECT FName, MI, LName " +
+							"FROM railway.PASSENGERS " +
+							"WHERE ID IN (SELECT ID FROM railway.TICKETS WHERE TypeID IN " +
+							"(SELECT ID FROM railway.TICKET_TYPES WHERE Type = '" + ticketType + "'))";
 
-                queryPopout.setTitle("Query Results");
+					System.out.print("emptytrip");
+				}
+
+
+
+
+                queryPopout.setTitle("PASSENGER RESULTS");
                 queryFramePanel.removeAll();
 
                 queryFramePanel.add(queryOutput);
@@ -1004,16 +1017,56 @@ public class TrainDatabaseGUI {
 
         ticketsSearchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String departingStation = ticketsDepartingStation.getText().isEmpty() ? "1=1" : ticketsDepartingStation.getText();
-                String arrivingStation = ticketsArrivingStation.getText().isEmpty() ? "1=1" : ticketsArrivingStation.getText();
-                String departingTime = ticketsTime.getText().isEmpty() ? "1=1" : ticketsTime.getText();
 
-                String sql = "SELECT ID FROM Railway.TICKETS WHERE tripID IN (" +
-                        "SELECT ID FROM Railway.TRIPS WHERE routeID IN (" +
-                        "SELECT ID FROM Railway.ROUTES WHERE SourceID IN (" +
-                        "SELECT ID FROM Railway.STATIONS WHERE Name = '" + departingStation + "'";
+                String departingStation = ticketsDepartingStation.getText();
+                String arrivingStation = ticketsArrivingStation.getText();
+                String departingTime = ticketsTime.getText();
+				String sql = "BASE SQL STRING";
+//                String sql = "SELECT ID FROM Railway.TICKETS WHERE tripID = " + departingStation;
+//						"IN (" +
+//                        "SELECT ID FROM Railway.TRIPS WHERE routeID IN (" +
+//                        "SELECT ID FROM Railway.ROUTES WHERE SourceID IN (" +
+//                        "SELECT ID FROM Railway.STATIONS WHERE Name = " + departingStation;
 
-                queryPopout.setTitle("Query Results");
+				if(departingStation.equals("") && arrivingStation.equals("") && departingTime.equals("")){
+					sql = "SELECT ID FROM Railway.TICKETS";
+				} else if (arrivingStation.equals("") && departingTime.equals("")) {
+					sql = "SELECT ID FROM Railway.TICKETS WHERE tripID IN " +
+							"(SELECT ID FROM Railway.TRIPS WHERE routeID IN " +
+							"(SELECT ID FROM Railway.ROUTES WHERE SourceID IN" +
+							"(SELECT ID FROM Railway.STATIONS WHERE Name = '" + departingStation + "')))";
+				} else if (departingStation.equals("") && departingTime.equals("")) {
+					sql = "SELECT ID FROM Railway.TICKETS WHERE tripID IN " +
+							"(SELECT ID FROM Railway.TRIPS WHERE routeID IN " +
+							"(SELECT ID FROM Railway.ROUTES WHERE DestID IN" +
+							"(SELECT ID FROM Railway.STATIONS WHERE Name = '" + arrivingStation + "')))";
+				} else if (departingStation.equals("") && arrivingStation.equals("")) {
+					sql = "SELECT ID FROM Railway.TICKETS WHERE tripID IN " +
+							"(SELECT ID FROM Railway.TRIPS WHERE routeID IN " +
+							"(SELECT ID FROM Railway.ROUTES WHERE departTime = '" + departingTime + "'))";
+				} else if (departingStation.equals("")) {
+					sql = "SELECT ID FROM Railway.TICKETS WHERE tripID IN " +
+							"(SELECT ID FROM Railway.TRIPS WHERE routeID IN " +
+							"(SELECT ID FROM Railway.ROUTES WHERE departTime = '" + departingTime + "') AND (routeID IN" +
+							"(SELECT ID FROM Railway.ROUTES WHERE DestID IN" +
+							"(SELECT ID FROM Railway.STATIONS WHERE Name = '" + arrivingStation + "'))))";
+				} else if (arrivingStation.equals("")) {
+					sql = "SELECT ID FROM Railway.TICKETS WHERE tripID IN " +
+							"(SELECT ID FROM Railway.TRIPS WHERE routeID IN " +
+							"(SELECT ID FROM Railway.ROUTES WHERE departTime = '" + departingTime + "') AND (routeID IN" +
+							"(SELECT ID FROM Railway.ROUTES WHERE SourceID IN" +
+							"(SELECT ID FROM Railway.STATIONS WHERE Name = '" + departingStation + "'))))";
+				} else {
+					sql = "SELECT ID FROM Railway.TICKETS WHERE tripID IN " +
+							"(SELECT ID FROM Railway.TRIPS WHERE routeID IN " +
+							"(SELECT ID FROM Railway.ROUTES WHERE departTime = '" + departingTime + "') AND (routeID IN" +
+							"(SELECT ID FROM Railway.ROUTES WHERE DestID IN" +
+							"(SELECT ID FROM Railway.STATIONS WHERE Name = '" + arrivingStation + "') AND (routeID IN" +
+							"(SELECT ID FROM Railway.ROUTES WHERE SourceID IN" +
+							"(SELECT ID FROM Railway.STATIONS WHERE Name = '" + departingStation + "'))))))";
+				}
+
+                queryPopout.setTitle("TICKET RESULTS");
                 queryFramePanel.removeAll();
 
                 queryFramePanel.add(queryOutput);

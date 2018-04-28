@@ -258,7 +258,7 @@ public class Database {
                     "('1004', 'David', null, 'Jones', '05/12/1952')," +
                     "('1005', 'Jessie', 'J', 'Lyons', '12/15/12')";
             stmt.executeUpdate(sql);
-            
+
             sql = "INSERT INTO Railway.TICKETS (ID, TypeID, TripID, PassengerID) VALUES " +
                     "('1001', '1', '1', '1001')," +
                     "('1002', '1', '2', '1005')," +
@@ -317,11 +317,14 @@ public class Database {
                 output.append("\n");
             }
 
+            System.out.print("IT WORKS");
+
             return output.toString();
         }
         catch (SQLException ex) {
 
         }
+
 
         return null;
     }
