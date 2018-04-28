@@ -1,12 +1,6 @@
 import java.io.IOException;
-
 import org.json.JSONException;
-
-import database.Database;
 import ui.TrainDatabaseGUI;
-
-
-
 
 public class Start {
 	

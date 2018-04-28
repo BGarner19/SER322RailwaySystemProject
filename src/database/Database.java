@@ -3,7 +3,6 @@ package database;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.Vector;
 
 public class Database {
@@ -69,9 +68,6 @@ public class Database {
 
         try {
             stmt = c.createStatement();
-
-//            sql = "DROP SCHEMA IF EXISTS Railway CASCADE";
-//            stmt.executeUpdate(sql);
 
             sql = "CREATE SCHEMA IF NOT EXISTS Railway";
             stmt.executeUpdate(sql);
@@ -322,42 +318,10 @@ public class Database {
             }
 
             return new DefaultTableModel(data, columnNames);
-//
-//            StringBuilder output = new StringBuilder();
-//
-//
-//            for (int i = 1; i <= columnsNumber; i++) {
-//
-//                output.append(String.format("%-20s", rsmd.getColumnName(i)));
-//            }
-//
-//            output.append("\n");
-//
-//            for (int i = 0; i < columnsNumber; i++) {
-//                output.append("===");
-//            }
-//
-//
-//
-//            output.append("\n");
-//
-//            while (resultSet.next()) {
-//                for (int i = 1; i <= columnsNumber; i++) {
-//
-//                    output.append(String.format("%-20s", resultSet.getString(i)));
-//                }
-//
-//                output.append("\n");
-//            }
-//
-//            System.out.print("IT WORKS");
-//
-//            //return output.toString();
         }
         catch (SQLException ex) {
 
         }
-
 
         return null;
     }
