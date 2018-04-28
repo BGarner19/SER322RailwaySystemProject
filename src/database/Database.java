@@ -147,14 +147,6 @@ public class Database {
                     "PRIMARY KEY (ID))";
             stmt.executeUpdate(sql);
 
-            sql = "CREATE TABLE IF NOT EXISTS Railway.TICKETS(" +
-                    "ID INT NOT NULL," +
-                    "ScheduleID INT NOT NULL," +
-                    "TypeID INT NOT NULL," +
-                    "PRIMARY KEY (ID)," +
-                    "FOREIGN KEY (TypeID) REFERENCES Railway.TICKET_TYPES(ID))";
-            stmt.executeUpdate(sql);
-
             sql = "CREATE TABLE IF NOT EXISTS Railway.PASSENGERS(" +
                     "ID INT NOT NULL," +
                     "FName VARCHAR(15) NOT NULL," +
@@ -163,6 +155,18 @@ public class Database {
                     "BDate DATE," +
                     "PRIMARY KEY (ID))";
             stmt.executeUpdate(sql);
+
+            sql = "CREATE TABLE IF NOT EXISTS Railway.TICKETS(" +
+                    "ID INT NOT NULL," +
+                    "TypeID INT NOT NULL," +
+                    "TripID INT NOT NULL," +
+                    "PassengerID INT NOT NULL," +
+                    "PRIMARY KEY (ID)," +
+                    "FOREIGN KEY (TypeID) REFERENCES Railway.TICKET_TYPES(ID),"+
+                    "FOREIGN KEY (TripID) REFERENCES Railway.TRIPS(ID),"+
+                    "FOREIGN KEY (PassengerID) REFERENCES Railway.PASSENGERS(ID))";
+            stmt.executeUpdate(sql);
+
         }
         catch (Exception e) {
             e.printStackTrace();
