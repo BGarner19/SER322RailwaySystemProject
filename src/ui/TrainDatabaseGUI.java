@@ -873,7 +873,109 @@ public class TrainDatabaseGUI {
         JTextArea queryOutput = new JTextArea();
         queryOutput.setEditable(false);
 
+        JPanel actionsPanel = new JPanel();
+        actionsPanel.setLayout(new BoxLayout(actionsPanel, BoxLayout.Y_AXIS));
+
+        JPanel findTicketsPanel = new JPanel(new GridLayout(1, 7));
+//        JLabel findRoutes = new JLabel("Find Routes...");
+//        JLabel routesStartingAt = new JLabel("Starting at: ");
+//        JLabel routesEndingAt = new JLabel("Ending at: ");
+//        JTextField routesStartingAtText = new JTextField();
+//        JTextField routesEndingAtText = new JTextField();
+//        JButton routesStartingAtButton = new JButton("Search");
+//        JButton routesEndingAtButton = new JButton("Search");
+
+//        findTicketsPanel.add(routesStartingAt);
+//        findTicketsPanel.add(routesStartingAtText);
+//        findTicketsPanel.add(routesStartingAtButton);
+//        findTicketsPanel.add(routesEndingAt);
+//        findTicketsPanel.add(routesEndingAtText);
+//        findTicketsPanel.add(routesEndingAtButton);
+
+        actionsPanel.add(new JLabel("Find Tickets..."));
+
+        findTicketsPanel.add(new JLabel("Departing Station: "));
+        JTextField ticketsDepartingStation = new JTextField();
+        findTicketsPanel.add(ticketsDepartingStation);
+        findTicketsPanel.add(new JLabel("Arriving Station: "));
+        JTextField ticketsArrivingStation = new JTextField();
+        findTicketsPanel.add(ticketsArrivingStation);
+        findTicketsPanel.add(new JLabel("Time: "));
+        JTextField ticketsTime = new JTextField();
+        findTicketsPanel.add(ticketsTime);
+        JButton ticketsSearchButton = new JButton("Search");
+        findTicketsPanel.add(ticketsSearchButton);
+        actionsPanel.add(findTicketsPanel);
+
+        actionsPanel.add(new JLabel("Find Passengers..."));
+
+        JPanel findPassengersPanel = new JPanel(new GridLayout(1, 7));
+        findPassengersPanel.add(new JLabel("Ticket Type: "));
+        JTextField passengersTicketType = new JTextField();
+        findPassengersPanel.add(passengersTicketType);
+        findPassengersPanel.add(new JLabel("Trip ID: "));
+        JTextField passengersTripID = new JTextField();
+        findPassengersPanel.add(passengersTripID);
+        JButton passengersSearchButton = new JButton("Search");
+        findPassengersPanel.add(new JLabel());
+        findPassengersPanel.add(new JLabel());
+        findPassengersPanel.add(passengersSearchButton);
+        actionsPanel.add(findPassengersPanel);
+
+        actionsPanel.add(new JLabel("Find Trains..."));
+
+        JPanel findTrainsPanel = new JPanel(new GridLayout(1, 7));
+        findTrainsPanel.add(new JLabel("Cargo Type: "));
+        JTextField trainsCargoType = new JTextField();
+        findTrainsPanel.add(trainsCargoType);
+        findTrainsPanel.add(new JLabel("RouteID: "));
+        JTextField trainsRouteID = new JTextField();
+        findTrainsPanel.add(trainsRouteID);
+        findTrainsPanel.add(new JLabel());
+        findTrainsPanel.add(new JLabel());
+        JButton trainsSearchButton = new JButton("Search");
+        findTrainsPanel.add(trainsSearchButton);
+
+        actionsPanel.add(findTrainsPanel);
+
+        ticketsSearchButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String departingStation = ticketsDepartingStation.getText().isEmpty() ? "1=1" : ticketsDepartingStation.getText();
+                String arrivingStation = ticketsArrivingStation.getText().isEmpty() ? "1=1" : ticketsArrivingStation.getText();
+                String departingTime = ticketsTime.getText().isEmpty() ? "1=1" : ticketsTime.getText();
+
+                String sql = "SELECT ID FROM Railway.TICKETS WHERE tripID IN (" +
+                        "SELECT ID FROM Railway.TRIPS WHERE routeID IN (" +
+                        "SELECT ID FROM Railway.ROUTES WHERE SourceID IN (" +
+                        "SELECT ID FROM Railway.STATIONS WHERE Name = " + departingStation;
+
+                queryPopout.setTitle("Query Results");
+                queryFramePanel.removeAll();
+
+                queryFramePanel.add(queryOutput);
+                queryPopout.getContentPane();
+                queryPopout.add(queryFramePanel);
+
+                queryPopout.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosing(WindowEvent e) {
+                        queryPopout.dispose();
+                        queryFramePanel.removeAll();
+                    }
+                });
+
+                queryPopout.pack();
+                queryPopout.setVisible(true);
+                queryPopout.setSize(400, 400);
+
+                queryOutput.setText((database.query(sql)));
+
+            }
+        });
+
+
         quickActions.add(queryPanel, BorderLayout.SOUTH);
+        quickActions.add(actionsPanel, BorderLayout.NORTH);
 
 
         queryButton.addActionListener(new ActionListener() {
@@ -904,6 +1006,7 @@ public class TrainDatabaseGUI {
 
             }
         });
+
 
 
         tabbedPane.addTab("Quick Actions", quickActions);
@@ -939,7 +1042,7 @@ public class TrainDatabaseGUI {
 		frame.setVisible(true);
 		frame.getContentPane().add(tabbedPane);
 		frame.pack();
-		frame.setSize(1500,1000);
+		frame.setSize(1000,1000);
 		frame.setLocation(200, 100);
 	}
 }
