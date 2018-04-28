@@ -957,8 +957,28 @@ public class TrainDatabaseGUI {
 
                 String sql = "";
 
+				if(cargoType.equals("") && routeID.equals("")){
+					sql = "SELECT FName, MI, LName FROM Railway.PASSENGERS";
+				} else if (cargoType.equals("")){
+					sql = "SELECT FName, MI, LName " +
+							"FROM railway.PASSENGERS " +
+							"WHERE ID IN (SELECT ID FROM railway.TICKETS WHERE TripID IN " +
+							"(SELECT ID FROM railway.TRIPS WHERE ID = '" + routeID + "'))";
+				} else if(routeID.equals("")){
+					sql = "SELECT FName, MI, LName " +
+							"FROM railway.PASSENGERS " +
+							"WHERE ID IN (SELECT ID FROM railway.TICKETS WHERE TypeID IN " +
+							"(SELECT ID FROM railway.TICKET_TYPES WHERE Type = '" + cargoType + "'))";
+				} else {
+					sql = "SELECT FName, MI, LName " +
+							"FROM railway.PASSENGERS " +
+							"WHERE ID IN (SELECT ID FROM railway.TICKETS WHERE TripID IN " +
+							"(SELECT ID FROM railway.TRIPS WHERE ID = '" + routeID + "') AND" +
+							"(ID IN (SELECT ID FROM railway.TICKETS WHERE TripID IN " +
+							"(SELECT ID FROM railway.TRIPS WHERE ID = '" + routeID + "'))))";
+				}
 
-                queryPopout.setTitle("Query Results");
+                queryPopout.setTitle("TRAIN RESULTS");
                 queryFramePanel.removeAll();
 
                 queryFramePanel.add(queryOutput);
@@ -1008,12 +1028,9 @@ public class TrainDatabaseGUI {
 							"FROM railway.PASSENGERS " +
 							"WHERE ID IN (SELECT ID FROM railway.TICKETS WHERE TripID IN " +
 							"(SELECT ID FROM railway.TRIPS WHERE ID = '" + tripID + "') AND" +
-							"(ID IN (SELECT ID FROM railway.TICKETS WHERE TripID IN " +
-							"(SELECT ID FROM railway.TRIPS WHERE ID = '" + tripID + "'))))";
+							"(ID IN (SELECT ID FROM railway.TICKETS WHERE TypeID IN" +
+							"(SELECT ID FROM railway.TICKET_TYPES WHERE Type = '" + ticketType + "'))))";
 				}
-
-
-
 
                 queryPopout.setTitle("PASSENGER RESULTS");
                 queryFramePanel.removeAll();
@@ -1046,12 +1063,7 @@ public class TrainDatabaseGUI {
                 String departingStation = ticketsDepartingStation.getText();
                 String arrivingStation = ticketsArrivingStation.getText();
                 String departingTime = ticketsTime.getText();
-				String sql = "BASE SQL STRING";
-//                String sql = "SELECT ID FROM Railway.TICKETS WHERE tripID = " + departingStation;
-//						"IN (" +
-//                        "SELECT ID FROM Railway.TRIPS WHERE routeID IN (" +
-//                        "SELECT ID FROM Railway.ROUTES WHERE SourceID IN (" +
-//                        "SELECT ID FROM Railway.STATIONS WHERE Name = " + departingStation;
+				String sql = "";
 
 				if(departingStation.equals("") && arrivingStation.equals("") && departingTime.equals("")){
 					sql = "SELECT ID FROM Railway.TICKETS";
