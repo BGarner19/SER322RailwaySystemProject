@@ -66,8 +66,8 @@ public class Database {
         try {
             stmt = c.createStatement();
 
-//            sql = "DROP SCHEMA IF EXISTS Railway CASCADE";
-//            stmt.executeUpdate(sql);
+            sql = "DROP SCHEMA IF EXISTS Railway CASCADE";
+            stmt.executeUpdate(sql);
 
             sql = "CREATE SCHEMA IF NOT EXISTS Railway";
             stmt.executeUpdate(sql);
@@ -119,7 +119,7 @@ public class Database {
                     "FOREIGN KEY (DestID) REFERENCES Railway.STATIONS(ID))";
             stmt.executeUpdate(sql);
 
-            sql = "CREATE TABLE IF NOT EXISTS Railway.SCHEDULE(" +
+            sql = "CREATE TABLE IF NOT EXISTS Railway.TRIPS(" +
                     "ID INT NOT NULL," +
                     "TrainID INT NOT NULL," +
                     "RouteID INT NOT NULL," +
@@ -129,6 +129,15 @@ public class Database {
                     "FOREIGN KEY (TrainID) REFERENCES Railway.TRAINS(ID)," +
                     "FOREIGN KEY (RouteID) REFERENCES Railway.ROUTES(ID))";
             stmt.executeUpdate(sql);
+
+            sql = "CREATE TABLE IF NOT EXISTS Railway.SCHEDULE(" +
+                    "ID INT NOT NULL," +
+                    "TripID INT NOT NULL," +
+                    "Date DATE NOT NULL," +
+                    "PRIMARY KEY (ID)," +
+                    "FOREIGN KEY (TripID) REFERENCES Railway.TRIPS(ID))";
+            stmt.executeUpdate(sql);
+
 
             sql = "CREATE TABLE IF NOT EXISTS Railway.TICKET_TYPES(" +
                     "ID INT NOT NULL," +
@@ -143,7 +152,6 @@ public class Database {
                     "ScheduleID INT NOT NULL," +
                     "TypeID INT NOT NULL," +
                     "PRIMARY KEY (ID)," +
-                    "FOREIGN KEY (ScheduleID) REFERENCES Railway.SCHEDULE(ID)," +
                     "FOREIGN KEY (TypeID) REFERENCES Railway.TICKET_TYPES(ID))";
             stmt.executeUpdate(sql);
 
@@ -153,9 +161,7 @@ public class Database {
                     "MI CHAR," +
                     "LName VARCHAR(15) NOT NULL," +
                     "BDate DATE," +
-                    "TicketID INT NOT NULL," +
-                    "PRIMARY KEY (ID)," +
-                    "FOREIGN KEY (TicketID) REFERENCES Railway.TICKETS(ID))";
+                    "PRIMARY KEY (ID))";
             stmt.executeUpdate(sql);
         }
         catch (Exception e) {
@@ -208,10 +214,9 @@ public class Database {
                     "('4', 'Route4', '1', '3')," +
                     "('5', 'Route5', '3', '2')," +
                     "('6', 'Route6', '2', '1')";
-
             stmt.executeUpdate(sql);
 
-            sql = "INSERT INTO Railway.SCHEDULE (ID, TrainID, RouteID, DepartTime, ArriveTime) VALUES " +
+            sql = "INSERT INTO Railway.TRIPS (ID, TrainID, RouteID, DepartTime, ArriveTime) VALUES " +
                     "('1', '1', '1', '00:00', '1:00')," +
                     "('2', '1', '6', '1:30', '2:30')," +
                     "('3', '2', '1', '14:00', '15:00')," +
@@ -221,26 +226,41 @@ public class Database {
                     "('7', '3', '2', '14:30', '16:30')";
             stmt.executeUpdate(sql);
 
+            sql = "INSERT INTO Railway.SCHEDULE (ID, TripID, Date) VALUES " +
+                    "('1', '1', '2018-05-12')," +
+                    "('2', '1', '2018-06-12')," +
+                    "('3', '1', '2018-07-12')," +
+                    "('4', '1', '2018-08-12')," +
+                    "('5', '1', '2018-09-12')," +
+                    "('6', '1', '2018-10-12')," +
+                    "('7', '2', '2018-05-12')," +
+                    "('8', '2', '2018-06-12')," +
+                    "('9', '2', '2018-07-12')," +
+                    "('10', '2', '2018-08-12')," +
+                    "('11', '2', '2018-09-12')," +
+                    "('12', '2', '2018-10-12')";
+            stmt.executeUpdate(sql);
+
             sql = "INSERT INTO Railway.TICKET_TYPES (ID, Type, Price) VALUES " +
                     "('1', 'Adult', '15.99')," +
                     "('2', 'Child', '6.99')," +
                     "('3', 'Senior', '9.99')";
             stmt.executeUpdate(sql);
 
-            sql = "INSERT INTO Railway.TICKETS (ID, ScheduleID, TypeID) VALUES " +
-                    "('1001', '1', '1')," +
-                    "('1002', '1', '2')," +
-                    "('1003', '2', '3')," +
-                    "('1004', '3', '1')," +
-                    "('1005', '3', '2')";
+            sql = "INSERT INTO Railway.TICKETS (ID, TypeID, TripID, PassengerID) VALUES " +
+                    "('1001', '1', '1', '1001')," +
+                    "('1002', '1', '2', '1005')," +
+                    "('1003', '2', '3', '1004')," +
+                    "('1004', '3', '1', '1004')," +
+                    "('1005', '3', '2','1002')";
             stmt.executeUpdate(sql);
 
-            sql = "INSERT INTO Railway.PASSENGERS (ID, FName, MI, LName, BDate, TicketID) VALUES " +
-                    "('1001', 'John', 'M', 'Lawrence', '06/19/1984', '1001')," +
-                    "('1002', 'Sarah', null, 'Smith', '01/21/08', '1005')," +
-                    "('1003', 'Mary', 'L', 'Johnson', null, '1004')," +
-                    "('1004', 'David', null, 'Jones', '05/12/1952', '1003')," +
-                    "('1005', 'Jessie', 'J', 'Lyons', '12/15/12', '1002')";
+            sql = "INSERT INTO Railway.PASSENGERS (ID, FName, MI, LName, BDate) VALUES " +
+                    "('1001', 'John', 'M', 'Lawrence', '06/19/1984')," +
+                    "('1002', 'Sarah', null, 'Smith', '01/21/08')," +
+                    "('1003', 'Mary', 'L', 'Johnson', null)," +
+                    "('1004', 'David', null, 'Jones', '05/12/1952')," +
+                    "('1005', 'Jessie', 'J', 'Lyons', '12/15/12')";
             stmt.executeUpdate(sql);
         }
         catch (Exception e) {
