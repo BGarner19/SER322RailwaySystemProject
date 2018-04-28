@@ -1,6 +1,8 @@
 package database;
 
+import javax.swing.*;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Database {
 
@@ -301,17 +303,26 @@ public class Database {
 
             StringBuilder output = new StringBuilder();
 
+            
             for (int i = 1; i <= columnsNumber; i++) {
 
-                output.append(String.format("%15s ", rsmd.getColumnName(i)));
+                output.append(String.format("%-20s", rsmd.getColumnName(i)));
             }
+
+            output.append("\n");
+
+            for (int i = 0; i < columnsNumber; i++) {
+                output.append("===");
+            }
+
+
 
             output.append("\n");
 
             while (resultSet.next()) {
                 for (int i = 1; i <= columnsNumber; i++) {
 
-                    output.append(String.format("%15s ", resultSet.getString(i)));
+                    output.append(String.format("%-20s", resultSet.getString(i)));
                 }
 
                 output.append("\n");

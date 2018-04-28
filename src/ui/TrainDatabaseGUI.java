@@ -28,9 +28,12 @@ public class TrainDatabaseGUI {
     private TicketTypesLibrary ticketTypesLibrary;
     private TrainLibrary trainLibrary;
     private TrainModelsLibrary trainModelsLibrary;
-    
-    
-    
+
+
+    private JTextArea stationsTable;
+    JTextArea cargoTypesTable;
+    JTextArea ticketTypesTable;
+    JTextArea tripsTable;
     
     
 	public TrainDatabaseGUI() throws IOException, JSONException {
@@ -861,6 +864,7 @@ public class TrainDatabaseGUI {
         //Query panel setup
 
         JScrollPane scrollPane = new JScrollPane(queryArea);
+        scrollPane.setPreferredSize(new Dimension(100, 100));
         queryArea.setFont(new Font("Serif", Font.BOLD, 15));
         queryArea.setText("Query the Railway database here.\n" +
                 "Remember to prefix table names with the name of the schema (Railway)");
@@ -938,6 +942,13 @@ public class TrainDatabaseGUI {
 
         actionsPanel.add(findTrainsPanel);
 
+        stationsTable = new JTextArea();
+        cargoTypesTable = new JTextArea();
+        ticketTypesTable = new JTextArea();
+        tripsTable = new JTextArea();
+
+        updateGUI();
+
         trainsSearchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
@@ -967,6 +978,8 @@ public class TrainDatabaseGUI {
                 queryPopout.setSize(400, 400);
 
                 queryOutput.setText((database.query(sql)));
+
+                updateGUI();
             }
         });
 
@@ -1012,6 +1025,8 @@ public class TrainDatabaseGUI {
                 queryPopout.setSize(400, 400);
 
                 queryOutput.setText((database.query(sql)));
+
+                updateGUI();
             }
         });
 
@@ -1094,16 +1109,34 @@ public class TrainDatabaseGUI {
 
                 queryOutput.setText((database.query(sql)));
 
+                updateGUI();
+
             }
         });
 
         JPanel tablesPanel = new JPanel(new GridLayout(2, 2));
 
-        
+
+        JScrollPane stations = new JScrollPane(stationsTable);
+        JScrollPane cargo = new JScrollPane(cargoTypesTable);
+        JScrollPane ticketTypes = new JScrollPane(ticketTypesTable);
+        JScrollPane trips = new JScrollPane(tripsTable);
+
+        tablesPanel.add(stations);
+        tablesPanel.add(cargo);
+        tablesPanel.add(ticketTypes);
+        tablesPanel.add(trips);
+
+        stationsTable.setEditable(false);
+        cargoTypesTable.setEditable(false);
+        ticketTypesTable.setEditable(false);
+        tripsTable.setEditable(false);
+
 
 
         quickActions.add(queryPanel, BorderLayout.SOUTH);
         quickActions.add(actionsPanel, BorderLayout.NORTH);
+        quickActions.add(tablesPanel, BorderLayout.CENTER);
 
 
         queryButton.addActionListener(new ActionListener() {
@@ -1131,6 +1164,8 @@ public class TrainDatabaseGUI {
                 queryPopout.setSize(400, 400);
 
                 queryOutput.setText((database.query(queryArea.getText())));
+
+                updateGUI();
 
             }
         });
@@ -1173,4 +1208,13 @@ public class TrainDatabaseGUI {
 		frame.setSize(1000,1000);
 		frame.setLocation(200, 100);
 	}
+
+	private void updateGUI() {
+
+	    stationsTable.setText("STATIONS\n\n" + database.query("SELECT * FROM Railway.STATIONS"));
+	    cargoTypesTable.setText("CARGO_TYPES\n\n" + database.query("SELECT * FROM Railway.CARGO_TYPES"));
+	    ticketTypesTable.setText("TICKET_TYPES\n\n" + database.query("SELECT * FROM Railway.TICKET_TYPES"));
+	    tripsTable.setText("TRIPS\n\n" + database.query("SELECT * FROM Railway.TRIPS"));
+
+    }
 }
