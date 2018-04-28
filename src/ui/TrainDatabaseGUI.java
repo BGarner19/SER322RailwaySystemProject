@@ -938,6 +938,70 @@ public class TrainDatabaseGUI {
 
         actionsPanel.add(findTrainsPanel);
 
+        trainsSearchButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                String cargoType = trainsCargoType.getText();
+                String routeID = trainsRouteID.getText();
+
+                String sql = "";
+
+
+                queryPopout.setTitle("Query Results");
+                queryFramePanel.removeAll();
+
+                queryFramePanel.add(queryOutput);
+                queryPopout.getContentPane();
+                queryPopout.add(queryFramePanel);
+
+                queryPopout.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosing(WindowEvent e) {
+                        queryPopout.dispose();
+                        queryFramePanel.removeAll();
+                    }
+                });
+
+                queryPopout.pack();
+                queryPopout.setVisible(true);
+                queryPopout.setSize(400, 400);
+
+                queryOutput.setText((database.query(sql)));
+            }
+        });
+
+        passengersSearchButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                String ticketType = passengersTicketType.getText();
+                String tripID = passengersTicketType.getText();
+
+                String sql = "";
+
+
+                queryPopout.setTitle("Query Results");
+                queryFramePanel.removeAll();
+
+                queryFramePanel.add(queryOutput);
+                queryPopout.getContentPane();
+                queryPopout.add(queryFramePanel);
+
+                queryPopout.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosing(WindowEvent e) {
+                        queryPopout.dispose();
+                        queryFramePanel.removeAll();
+                    }
+                });
+
+                queryPopout.pack();
+                queryPopout.setVisible(true);
+                queryPopout.setSize(400, 400);
+
+                queryOutput.setText((database.query(sql)));
+            }
+        });
+
         ticketsSearchButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String departingStation = ticketsDepartingStation.getText().isEmpty() ? "1=1" : ticketsDepartingStation.getText();
@@ -947,7 +1011,7 @@ public class TrainDatabaseGUI {
                 String sql = "SELECT ID FROM Railway.TICKETS WHERE tripID IN (" +
                         "SELECT ID FROM Railway.TRIPS WHERE routeID IN (" +
                         "SELECT ID FROM Railway.ROUTES WHERE SourceID IN (" +
-                        "SELECT ID FROM Railway.STATIONS WHERE Name = " + departingStation;
+                        "SELECT ID FROM Railway.STATIONS WHERE Name = '" + departingStation + "'";
 
                 queryPopout.setTitle("Query Results");
                 queryFramePanel.removeAll();
@@ -972,6 +1036,10 @@ public class TrainDatabaseGUI {
 
             }
         });
+
+        JPanel tablesPanel = new JPanel(new GridLayout(2, 2));
+
+        
 
 
         quickActions.add(queryPanel, BorderLayout.SOUTH);
