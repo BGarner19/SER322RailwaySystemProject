@@ -251,6 +251,14 @@ public class Database {
                     "('3', 'Senior', '9.99')";
             stmt.executeUpdate(sql);
 
+            sql = "INSERT INTO Railway.PASSENGERS (ID, FName, MI, LName, BDate) VALUES " +
+                    "('1001', 'John', 'M', 'Lawrence', '06/19/1984')," +
+                    "('1002', 'Sarah', null, 'Smith', '01/21/08')," +
+                    "('1003', 'Mary', 'L', 'Johnson', null)," +
+                    "('1004', 'David', null, 'Jones', '05/12/1952')," +
+                    "('1005', 'Jessie', 'J', 'Lyons', '12/15/12')";
+            stmt.executeUpdate(sql);
+            
             sql = "INSERT INTO Railway.TICKETS (ID, TypeID, TripID, PassengerID) VALUES " +
                     "('1001', '1', '1', '1001')," +
                     "('1002', '1', '2', '1005')," +
@@ -259,13 +267,7 @@ public class Database {
                     "('1005', '3', '2','1002')";
             stmt.executeUpdate(sql);
 
-            sql = "INSERT INTO Railway.PASSENGERS (ID, FName, MI, LName, BDate) VALUES " +
-                    "('1001', 'John', 'M', 'Lawrence', '06/19/1984')," +
-                    "('1002', 'Sarah', null, 'Smith', '01/21/08')," +
-                    "('1003', 'Mary', 'L', 'Johnson', null)," +
-                    "('1004', 'David', null, 'Jones', '05/12/1952')," +
-                    "('1005', 'Jessie', 'J', 'Lyons', '12/15/12')";
-            stmt.executeUpdate(sql);
+
         }
         catch (Exception e) {
             
