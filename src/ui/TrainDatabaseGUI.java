@@ -1056,6 +1056,13 @@ public class TrainDatabaseGUI {
 							"(SELECT ID FROM Railway.ROUTES WHERE departTime = '" + departingTime + "') AND (routeID IN" +
 							"(SELECT ID FROM Railway.ROUTES WHERE SourceID IN" +
 							"(SELECT ID FROM Railway.STATIONS WHERE Name = '" + departingStation + "'))))";
+				} else if (departingTime.equals("")) {
+					sql ="SELECT ID FROM Railway.TICKETS WHERE tripID IN " +
+							"(SELECT ID FROM Railway.TRIPS WHERE routeID IN" +
+							"(SELECT ID FROM Railway.ROUTES WHERE DestID IN" +
+							"(SELECT ID FROM Railway.STATIONS WHERE Name = '" + arrivingStation + "') AND (routeID IN" +
+							"(SELECT ID FROM Railway.ROUTES WHERE SourceID IN" +
+							"(SELECT ID FROM Railway.STATIONS WHERE Name = '" + departingStation + "'))))";
 				} else {
 					sql = "SELECT ID FROM Railway.TICKETS WHERE tripID IN " +
 							"(SELECT ID FROM Railway.TRIPS WHERE routeID IN " +
