@@ -48,6 +48,10 @@ public class TrainDatabaseGUI {
 
 		init();
 	}
+
+	JTabbedPane tabbedPane = new JTabbedPane();
+
+
 	
 	// base GUI stuff
 	
@@ -835,57 +839,7 @@ public class TrainDatabaseGUI {
 		
 		
 		
-		// buffer panel setup
-		
-		bufferPanel.add(new JLabel());
-		
-		//Query panel setup
 
-        JScrollPane scrollPane = new JScrollPane(queryArea);
-        queryArea.setFont(new Font("Serif", Font.BOLD, 20));
-        queryArea.setText("Query the Railway database here.\n" +
-                "Remember to prefix table names with the name of the schema (Railway)");
-        queryArea.addFocusListener(new FocusListener() {
-            public void focusGained(FocusEvent e) {
-                if (queryArea.getText().equals("Query the Railway database here.\n" +
-                        "Remember to prefix table names with the name of the schema (Railway)")) queryArea.setText("");
-            }
-
-            public void focusLost(FocusEvent e) {
-            	if (queryArea.getText().equals("")) queryArea.setText("Query the Railway database here.\n" +
-                        "Remember to prefix table names with the name of the schema (Railway)");
-            }
-        });
-
-        queryPanel.add(scrollPane);
-        queryPanel.add(queryButton);
-
-        queryButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                database.query(queryArea.getText());
-                
-		        queryPopout.setTitle("Query Results");
-		        queryFramePanel.removeAll();
-
-		        queryFramePanel.add(new JLabel("Stuff Here")); //TODO: Display Query instead of this
-                queryPopout.getContentPane();
-                queryPopout.add(queryFramePanel);
-                
-                queryPopout.addWindowListener(new WindowAdapter() {
-                	@Override
-                	public void windowClosing(WindowEvent e) {
-                		queryPopout.dispose();
-                		queryFramePanel.removeAll();
-                	}
-                });
-                
-                queryPopout.pack();
-                queryPopout.setVisible(true);
-                queryPopout.setSize(500, 500); //TODO: Im not sure if this is the optimal size for the query so change this what you need
-                queryPopout.setLocation(700, 200);
-            }
-        });
-		
 		// actual panel setup (add with each new class)
 		
 		panel.add(cargoTypePanel);
@@ -900,10 +854,62 @@ public class TrainDatabaseGUI {
 		panel.add(passengerPanel);
 		panel.add(bufferPanel);
 
-		wholePanel.add(panel, BorderLayout.NORTH);
-		wholePanel.add(queryPanel, BorderLayout.CENTER);
+        // buffer panel setup
 
-		frame.add(wholePanel);
+        bufferPanel.add(new JLabel());
+
+        //Query panel setup
+
+        JScrollPane scrollPane = new JScrollPane(queryArea);
+        queryArea.setFont(new Font("Serif", Font.BOLD, 15));
+        queryArea.setText("Query the Railway database here.\n" +
+                "Remember to prefix table names with the name of the schema (Railway)");
+        JPanel quickActions = new JPanel(new BorderLayout());
+        quickActions.setSize(new Dimension(100,100));
+
+        queryPanel.add(scrollPane);
+        queryPanel.add(queryButton);
+
+        JTextArea queryOutput = new JTextArea();
+        queryOutput.setEditable(false);
+
+        quickActions.add(queryPanel, BorderLayout.SOUTH);
+
+
+        queryButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                database.query(queryArea.getText());
+
+                queryPopout.setTitle("Query Results");
+                queryFramePanel.removeAll();
+
+                queryFramePanel.add(queryOutput);
+                queryPopout.getContentPane();
+                queryPopout.add(queryFramePanel);
+
+                queryPopout.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosing(WindowEvent e) {
+                        queryPopout.dispose();
+                        queryFramePanel.removeAll();
+                    }
+                });
+
+                queryPopout.pack();
+                queryPopout.setVisible(true);
+                queryPopout.setSize(400, 400);
+
+                queryOutput.setText((database.query(queryArea.getText())));
+
+            }
+        });
+
+
+        tabbedPane.addTab("Quick Actions", quickActions);
+        //tabbedPane.addTab("Main", panel);
+
+		frame.add(tabbedPane);
 		
 		// visibility (add with each new class)
 		
@@ -931,9 +937,9 @@ public class TrainDatabaseGUI {
 		
         frame.setTitle("SER322 Team 6 - Railway System");
 		frame.setVisible(true);
-		frame.getContentPane().add(wholePanel);
+		frame.getContentPane().add(tabbedPane);
 		frame.pack();
-		frame.setSize(1500,800);
+		frame.setSize(1500,1000);
 		frame.setLocation(200, 100);
 	}
 }
