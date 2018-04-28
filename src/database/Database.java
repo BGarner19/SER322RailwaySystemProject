@@ -1,8 +1,10 @@
 package database;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class Database {
 
@@ -68,8 +70,8 @@ public class Database {
         try {
             stmt = c.createStatement();
 
-            sql = "DROP SCHEMA IF EXISTS Railway CASCADE";
-            stmt.executeUpdate(sql);
+//            sql = "DROP SCHEMA IF EXISTS Railway CASCADE";
+//            stmt.executeUpdate(sql);
 
             sql = "CREATE SCHEMA IF NOT EXISTS Railway";
             stmt.executeUpdate(sql);
@@ -290,7 +292,7 @@ public class Database {
         return c;
     }
 
-    public String query(String query) {
+    public DefaultTableModel query(String query) {
 
         System.out.println(query);
         try {
@@ -301,36 +303,56 @@ public class Database {
 
             int columnsNumber = rsmd.getColumnCount();
 
-            StringBuilder output = new StringBuilder();
+            Vector<String> columnNames = new Vector<String>();
 
-            
-            for (int i = 1; i <= columnsNumber; i++) {
-
-                output.append(String.format("%-20s", rsmd.getColumnName(i)));
+            for (int col = 1; col <= columnsNumber; col++) {
+                columnNames.add(rsmd.getColumnName(col));
             }
 
-            output.append("\n");
-
-            for (int i = 0; i < columnsNumber; i++) {
-                output.append("===");
-            }
-
-
-
-            output.append("\n");
+            Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 
             while (resultSet.next()) {
-                for (int i = 1; i <= columnsNumber; i++) {
+                Vector<Object> vector = new Vector<Object>();
 
-                    output.append(String.format("%-20s", resultSet.getString(i)));
+                for (int i = 1; i <= columnsNumber; i++) {
+                    vector.add(resultSet.getObject(i));
                 }
 
-                output.append("\n");
+                data.add(vector);
             }
 
-            System.out.print("IT WORKS");
-
-            return output.toString();
+            return new DefaultTableModel(data, columnNames);
+//
+//            StringBuilder output = new StringBuilder();
+//
+//
+//            for (int i = 1; i <= columnsNumber; i++) {
+//
+//                output.append(String.format("%-20s", rsmd.getColumnName(i)));
+//            }
+//
+//            output.append("\n");
+//
+//            for (int i = 0; i < columnsNumber; i++) {
+//                output.append("===");
+//            }
+//
+//
+//
+//            output.append("\n");
+//
+//            while (resultSet.next()) {
+//                for (int i = 1; i <= columnsNumber; i++) {
+//
+//                    output.append(String.format("%-20s", resultSet.getString(i)));
+//                }
+//
+//                output.append("\n");
+//            }
+//
+//            System.out.print("IT WORKS");
+//
+//            //return output.toString();
         }
         catch (SQLException ex) {
 

@@ -30,10 +30,10 @@ public class TrainDatabaseGUI {
     private TrainModelsLibrary trainModelsLibrary;
 
 
-    private JTextArea stationsTable;
-    JTextArea cargoTypesTable;
-    JTextArea ticketTypesTable;
-    JTextArea tripsTable;
+    private JTable stationsTable;
+    JTable cargoTypesTable;
+    JTable ticketTypesTable;
+    JTable tripsTable;
     
     
 	public TrainDatabaseGUI() throws IOException, JSONException {
@@ -874,8 +874,7 @@ public class TrainDatabaseGUI {
         queryPanel.add(scrollPane);
         queryPanel.add(queryButton);
 
-        JTextArea queryOutput = new JTextArea();
-        queryOutput.setEditable(false);
+        JTable queryOutput = new JTable();
 
         JPanel actionsPanel = new JPanel();
         actionsPanel.setLayout(new BoxLayout(actionsPanel, BoxLayout.Y_AXIS));
@@ -942,10 +941,10 @@ public class TrainDatabaseGUI {
 
         actionsPanel.add(findTrainsPanel);
 
-        stationsTable = new JTextArea();
-        cargoTypesTable = new JTextArea();
-        ticketTypesTable = new JTextArea();
-        tripsTable = new JTextArea();
+        stationsTable = new JTable();
+        cargoTypesTable = new JTable();
+        ticketTypesTable = new JTable();
+        tripsTable = new JTable();
 
         updateGUI();
 
@@ -997,7 +996,7 @@ public class TrainDatabaseGUI {
                 queryPopout.setVisible(true);
                 queryPopout.setSize(400, 400);
 
-                queryOutput.setText((database.query(sql)));
+                //queryOutput.setText((database.query(sql)));
 
                 updateGUI();
             }
@@ -1051,7 +1050,7 @@ public class TrainDatabaseGUI {
                 queryPopout.setVisible(true);
                 queryPopout.setSize(400, 400);
 
-                queryOutput.setText((database.query(sql)));
+                //queryOutput.setText((database.query(sql)));
 
                 updateGUI();
             }
@@ -1129,7 +1128,7 @@ public class TrainDatabaseGUI {
                 queryPopout.setVisible(true);
                 queryPopout.setSize(400, 400);
 
-                queryOutput.setText((database.query(sql)));
+                //queryOutput.setText((database.query(sql)));
 
                 updateGUI();
 
@@ -1144,15 +1143,24 @@ public class TrainDatabaseGUI {
         JScrollPane ticketTypes = new JScrollPane(ticketTypesTable);
         JScrollPane trips = new JScrollPane(tripsTable);
 
-        tablesPanel.add(stations);
-        tablesPanel.add(cargo);
-        tablesPanel.add(ticketTypes);
-        tablesPanel.add(trips);
+        JTabbedPane stationTab = new JTabbedPane();
+        stationTab.add("STATIONS", stations);
+        JTabbedPane cargoTab = new JTabbedPane();
+        cargoTab.add("CARGO_TYPES", cargo);
+        JTabbedPane ticketTab = new JTabbedPane();
+        ticketTab.add("TICKET_TYPES", ticketTypes);
+        JTabbedPane tripsTab = new JTabbedPane();
+        tripsTab.add("TRIPS", trips);
 
-        stationsTable.setEditable(false);
-        cargoTypesTable.setEditable(false);
-        ticketTypesTable.setEditable(false);
-        tripsTable.setEditable(false);
+        tablesPanel.add(stationTab);
+        tablesPanel.add(cargoTab);
+        tablesPanel.add(ticketTab);
+        tablesPanel.add(tripsTab);
+
+//        stationsTable.setEditable(false);
+//        cargoTypesTable.setEditable(false);
+//        ticketTypesTable.setEditable(false);
+//        tripsTable.setEditable(false);
 
 
 
@@ -1164,7 +1172,7 @@ public class TrainDatabaseGUI {
         queryButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-                database.query(queryArea.getText());
+                JTable queryOutput = new JTable(database.query(queryArea.getText()));
 
                 queryPopout.setTitle("Query Results");
                 queryFramePanel.removeAll();
@@ -1183,9 +1191,9 @@ public class TrainDatabaseGUI {
 
                 queryPopout.pack();
                 queryPopout.setVisible(true);
-                queryPopout.setSize(400, 400);
+                //queryPopout.setSize(400, 400);
 
-                queryOutput.setText((database.query(queryArea.getText())));
+                //queryOutput.setText((database.query(queryArea.getText())));
 
                 updateGUI();
 
@@ -1233,10 +1241,15 @@ public class TrainDatabaseGUI {
 
 	private void updateGUI() {
 
-	    stationsTable.setText("STATIONS\n\n" + database.query("SELECT * FROM Railway.STATIONS"));
-	    cargoTypesTable.setText("CARGO_TYPES\n\n" + database.query("SELECT * FROM Railway.CARGO_TYPES"));
-	    ticketTypesTable.setText("TICKET_TYPES\n\n" + database.query("SELECT * FROM Railway.TICKET_TYPES"));
-	    tripsTable.setText("TRIPS\n\n" + database.query("SELECT * FROM Railway.TRIPS"));
+	    stationsTable = new JTable(database.query("SELECT * FROM Railway.STATIONS"));
+        cargoTypesTable = new JTable(database.query("SELECT * FROM Railway.CARGO_TYPES"));
+        ticketTypesTable = new JTable(database.query("SELECT * FROM Railway.TICKET_TYPES"));
+        tripsTable = new JTable(database.query("SELECT * FROM Railway.TRIPS"));
+
+        stationsTable.updateUI();
+        cargoTypesTable.updateUI();
+        ticketTypesTable.updateUI();
+        tripsTable.updateUI();
 
     }
 }
