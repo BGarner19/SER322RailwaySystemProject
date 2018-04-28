@@ -957,24 +957,22 @@ public class TrainDatabaseGUI {
                 String sql = "";
 
 				if(cargoType.equals("") && routeID.equals("")){
-					sql = "SELECT FName, MI, LName FROM Railway.PASSENGERS";
+					sql = "SELECT Name FROM Railway.TRAINS";
 				} else if (cargoType.equals("")){
-					sql = "SELECT FName, MI, LName " +
-							"FROM railway.PASSENGERS " +
-							"WHERE ID IN (SELECT ID FROM railway.TICKETS WHERE TripID IN " +
-							"(SELECT ID FROM railway.TRIPS WHERE ID = '" + routeID + "'))";
+					sql = "SELECT Name " +
+							"FROM railway.TRAINS " +
+							"WHERE ID IN (SELECT trainID FROM railway.TRIPS WHERE routeID = '" + routeID + "')";
 				} else if(routeID.equals("")){
-					sql = "SELECT FName, MI, LName " +
-							"FROM railway.PASSENGERS " +
-							"WHERE ID IN (SELECT ID FROM railway.TICKETS WHERE TypeID IN " +
-							"(SELECT ID FROM railway.TICKET_TYPES WHERE Type = '" + cargoType + "'))";
+					sql = "SELECT Name " +
+							"FROM railway.TRAINS " +
+							"WHERE modelID IN (SELECT ID FROM railway.Models WHERE CargoID IN " +
+							"(SELECT ID FROM railway.CARGO_TYPES WHERE Type = '" + cargoType + "'))";
 				} else {
-					sql = "SELECT FName, MI, LName " +
-							"FROM railway.PASSENGERS " +
-							"WHERE ID IN (SELECT ID FROM railway.TICKETS WHERE TripID IN " +
-							"(SELECT ID FROM railway.TRIPS WHERE ID = '" + routeID + "') AND" +
-							"(ID IN (SELECT ID FROM railway.TICKETS WHERE TripID IN " +
-							"(SELECT ID FROM railway.TRIPS WHERE ID = '" + routeID + "'))))";
+					sql = "SELECT Name " +
+							"FROM railway.TRAINS " +
+							"WHERE ID IN (SELECT trainID FROM railway.TRIPS WHERE routeID = '" + routeID + "')AND" +
+							"(modelID IN (SELECT ID FROM railway.Models WHERE CargoID IN" +
+							"(SELECT ID FROM railway.CARGO_TYPES WHERE Type = '" + cargoType + "')))";
 				}
 
                 JTable queryOut = new JTable(database.query(sql));
