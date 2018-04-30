@@ -1,23 +1,23 @@
 package query;
 
 public class TicketsQuery implements QueryBuilder {
-
+    
     private String departingStation;
     private String arrivingStation;
     private String departingTime;
-
+    
     public TicketsQuery(String departingStation, String arrivingStation, String departingTime) {
         this.departingStation = departingStation;
         this.arrivingStation = arrivingStation;
         this.departingTime = departingTime;
     }
-
+    
     @Override
     public String buildQuery() {
-
+        
         String sql;
-
-        if(departingStation.equals("") && arrivingStation.equals("") && departingTime.equals("")){
+        
+        if (departingStation.equals("") && arrivingStation.equals("") && departingTime.equals("")) {
             sql = "SELECT ID FROM Railway.TICKETS";
         } else if (arrivingStation.equals("") && departingTime.equals("")) {
             sql = "SELECT ID FROM Railway.TICKETS WHERE tripID IN " +
@@ -46,7 +46,7 @@ public class TicketsQuery implements QueryBuilder {
                     "(SELECT ID FROM Railway.ROUTES WHERE SourceID IN" +
                     "(SELECT ID FROM Railway.STATIONS WHERE Name = '" + departingStation + "'))))";
         } else if (departingTime.equals("")) {
-            sql ="SELECT ID FROM Railway.TICKETS WHERE tripID IN " +
+            sql = "SELECT ID FROM Railway.TICKETS WHERE tripID IN " +
                     "(SELECT ID FROM Railway.TRIPS WHERE routeID IN" +
                     "(SELECT ID FROM Railway.ROUTES WHERE DestID IN" +
                     "(SELECT ID FROM Railway.STATIONS WHERE Name = '" + arrivingStation + "') AND (routeID IN" +
@@ -61,7 +61,7 @@ public class TicketsQuery implements QueryBuilder {
                     "(SELECT ID FROM Railway.ROUTES WHERE SourceID IN" +
                     "(SELECT ID FROM Railway.STATIONS WHERE Name = '" + departingStation + "'))))))";
         }
-
+        
         return sql;
     }
 }

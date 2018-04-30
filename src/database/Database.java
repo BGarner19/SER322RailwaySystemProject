@@ -5,79 +5,82 @@ import java.sql.*;
 import java.util.Vector;
 
 public class Database {
-
+    
     private final int port;
     private String dbName;
     private String username;
     private String password;
     private Connection c;
-
+    
     /**
      * Constructor to connect to the database. Takes in the port and database name.
-     * @param port The port that PostgreSQL is set to use. Default is 5432
+     *
+     * @param port   The port that PostgreSQL is set to use. Default is 5432
      * @param dbName The name of the database to connect to. Default is Team6RailwayDB.
      */
-
+    
     public Database(int port, String dbName, String username, String password) {
         this.port = port;
         this.dbName = dbName;
         this.username = username;
         this.password = password;
-
+        
         initDatabase();
     }
-
+    
     /**
      * Connects to the database specified by the name on the correct port. Uses default user postgres and password 322.
      * After connecting to the database, calls methods to create all of the tables in the database and fill them with
      * data.
      */
-
+    
     private void initDatabase() {
-
+        
         try {
             Class.forName("org.postgresql.Driver");
-
+            
             c = DriverManager
                     .getConnection("jdbc:postgresql://localhost:" + port + "/" + dbName,
                             username, password);
-
+            
             createTables(c);
             fillTables(c);
-
-        } catch (Exception e) {
+            
+        }
+        catch (Exception e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName()+": "+e.getMessage());
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
-
+        
         System.out.println("Opened database successfully");
     }
-
+    
     /**
      * Creates the database relations as tables. Railway is the name of the schema. This method will delete all
      * current data in the schema and recreate it to default state.
+     *
      * @param c The connection to the database.
      */
-
+    
     private void createTables(Connection c) {
-
+        
         String sql;
         Statement stmt;
-
+        
         try {
             stmt = c.createStatement();
-
+            
             sql = "CREATE SCHEMA IF NOT EXISTS Railway";
             stmt.executeUpdate(sql);
-
+            
             sql = "CREATE TABLE IF NOT EXISTS Railway.CARGO_TYPES(" +
                     "ID INT NOT NULL," +
                     "Type VARCHAR(30) NOT NULL," +
                     "UNIQUE (Type)," +
                     "PRIMARY KEY (ID))";
             stmt.executeUpdate(sql);
-
+            
             sql = "CREATE TABLE IF NOT EXISTS Railway.MODELS " +
                     "(ID INT NOT NULL," +
                     "Name VARCHAR(15) NOT NULL," +
@@ -90,7 +93,7 @@ public class Database {
                     "PRIMARY KEY (ID)," +
                     "FOREIGN KEY (CargoID) REFERENCES Railway.CARGO_TYPES(ID))";
             stmt.executeUpdate(sql);
-
+            
             sql = "CREATE TABLE IF NOT EXISTS Railway.TRAINS(" +
                     "ID INT NOT NULL," +
                     "Name VARCHAR(15) NOT NULL," +
@@ -99,7 +102,7 @@ public class Database {
                     "PRIMARY KEY (ID)," +
                     "FOREIGN KEY (ModelID) REFERENCES Railway.MODELS(ID))";
             stmt.executeUpdate(sql);
-
+            
             sql = "CREATE TABLE IF NOT EXISTS Railway.STATIONS(" +
                     "ID INT NOT NULL," +
                     "Name VARCHAR(15) NOT NULL," +
@@ -107,7 +110,7 @@ public class Database {
                     "Longitude DECIMAL(10,2) NOT NULL," +
                     "PRIMARY KEY (ID))";
             stmt.executeUpdate(sql);
-
+            
             sql = "CREATE TABLE IF NOT EXISTS Railway.ROUTES(" +
                     "ID INT NOT NULL," +
                     "Name VARCHAR(15) NOT NULL," +
@@ -117,7 +120,7 @@ public class Database {
                     "FOREIGN KEY (SourceID) REFERENCES Railway.STATIONS(ID)," +
                     "FOREIGN KEY (DestID) REFERENCES Railway.STATIONS(ID))";
             stmt.executeUpdate(sql);
-
+            
             sql = "CREATE TABLE IF NOT EXISTS Railway.TRIPS(" +
                     "ID INT NOT NULL," +
                     "TrainID INT NOT NULL," +
@@ -128,7 +131,7 @@ public class Database {
                     "FOREIGN KEY (TrainID) REFERENCES Railway.TRAINS(ID)," +
                     "FOREIGN KEY (RouteID) REFERENCES Railway.ROUTES(ID))";
             stmt.executeUpdate(sql);
-
+            
             sql = "CREATE TABLE IF NOT EXISTS Railway.SCHEDULE(" +
                     "ID INT NOT NULL," +
                     "TripID INT NOT NULL," +
@@ -136,8 +139,8 @@ public class Database {
                     "PRIMARY KEY (ID)," +
                     "FOREIGN KEY (TripID) REFERENCES Railway.TRIPS(ID))";
             stmt.executeUpdate(sql);
-
-
+            
+            
             sql = "CREATE TABLE IF NOT EXISTS Railway.TICKET_TYPES(" +
                     "ID INT NOT NULL," +
                     "Type VARCHAR(30) NOT NULL," +
@@ -145,7 +148,7 @@ public class Database {
                     "UNIQUE (Type)," +
                     "PRIMARY KEY (ID))";
             stmt.executeUpdate(sql);
-
+            
             sql = "CREATE TABLE IF NOT EXISTS Railway.PASSENGERS(" +
                     "ID INT NOT NULL," +
                     "FName VARCHAR(15) NOT NULL," +
@@ -154,62 +157,63 @@ public class Database {
                     "BDate DATE," +
                     "PRIMARY KEY (ID))";
             stmt.executeUpdate(sql);
-
+            
             sql = "CREATE TABLE IF NOT EXISTS Railway.TICKETS(" +
                     "ID INT NOT NULL," +
                     "TypeID INT NOT NULL," +
                     "TripID INT NOT NULL," +
                     "PassengerID INT NOT NULL," +
                     "PRIMARY KEY (ID)," +
-                    "FOREIGN KEY (TypeID) REFERENCES Railway.TICKET_TYPES(ID),"+
-                    "FOREIGN KEY (TripID) REFERENCES Railway.TRIPS(ID),"+
+                    "FOREIGN KEY (TypeID) REFERENCES Railway.TICKET_TYPES(ID)," +
+                    "FOREIGN KEY (TripID) REFERENCES Railway.TRIPS(ID)," +
                     "FOREIGN KEY (PassengerID) REFERENCES Railway.PASSENGERS(ID))";
             stmt.executeUpdate(sql);
-
+            
         }
         catch (Exception e) {
             e.printStackTrace();
-            System.err.println(e.getClass().getName()+": "+e.getMessage());
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
     }
-
+    
     /**
      * Fills the tables in the database with sample data. Railway is the name of the database schema.
+     *
      * @param c The connection to the database.
      */
-
+    
     private void fillTables(Connection c) {
         String sql;
         Statement stmt;
-
+        
         try {
             stmt = c.createStatement();
-
+            
             sql = "INSERT INTO Railway.CARGO_TYPES (ID, Type) VALUES" +
                     "('1', 'Freight')," +
                     "('2', 'Passenger')";
             stmt.executeUpdate(sql);
-
+            
             sql = "INSERT INTO Railway.MODELS (ID, Name, Weight, CargoID, NumCars, Capacity, WeightLim) VALUES " +
                     "('1', 'ModelX-F', '125', '1', '20', null, '1000')," +
                     "('2', 'ModelT-F', '125', '1', '10', null, '500')," +
                     "('3', 'ModelX-P', '100', '2', '20', '200', null)," +
                     "('4', 'ModelT-P', '100', '2', '10', '100', null)";
             stmt.executeUpdate(sql);
-
+            
             sql = "INSERT INTO Railway.TRAINS (ID, Name, ModelID) VALUES " +
                     "('1', 'Train1', '1')," +
                     "('2', 'Train2', '3')," +
                     "('3', 'Train3', '4')";
             stmt.executeUpdate(sql);
-
+            
             sql = "INSERT INTO Railway.STATIONS (ID, Name, Latitude, Longitude) VALUES " +
                     "('1', 'Station1', '100.00', '100.00')," +
                     "('2', 'Station2', '200.00', '200.00')," +
                     "('3', 'Station3', '300.00', '300.00')";
             stmt.executeUpdate(sql);
-
+            
             sql = "INSERT INTO Railway.ROUTES (ID, Name, SourceID, DestID) VALUES " +
                     "('1', 'Route1', '1', '2'), " +
                     "('2', 'Route2', '3', '1')," +
@@ -218,7 +222,7 @@ public class Database {
                     "('5', 'Route5', '3', '2')," +
                     "('6', 'Route6', '2', '1')";
             stmt.executeUpdate(sql);
-
+            
             sql = "INSERT INTO Railway.TRIPS (ID, TrainID, RouteID, DepartTime, ArriveTime) VALUES " +
                     "('1', '1', '1', '00:00', '1:00')," +
                     "('2', '1', '6', '1:30', '2:30')," +
@@ -228,7 +232,7 @@ public class Database {
                     "('6', '3', '4', '12:00', '14:00')," +
                     "('7', '3', '2', '14:30', '16:30')";
             stmt.executeUpdate(sql);
-
+            
             sql = "INSERT INTO Railway.SCHEDULE (ID, TripID, Date) VALUES " +
                     "('1', '1', '2018-05-12')," +
                     "('2', '1', '2018-06-12')," +
@@ -243,14 +247,14 @@ public class Database {
                     "('11', '2', '2018-09-12')," +
                     "('12', '2', '2018-10-12')";
             stmt.executeUpdate(sql);
-
+            
             sql = "INSERT INTO Railway.TICKET_TYPES (ID, Type, Price) VALUES " +
                     "('1', 'Adult', '15.99')," +
                     "('2', 'Child', '6.99')," +
                     "('3', 'Senior', '9.99')," +
                     "('4', 'Student', '10.99')";
             stmt.executeUpdate(sql);
-
+            
             sql = "INSERT INTO Railway.PASSENGERS (ID, FName, MI, LName, BDate) VALUES " +
                     "('1001', 'John', 'M', 'Lawrence', '06/19/1984')," +
                     "('1002', 'Sarah', null, 'Smith', '01/21/08')," +
@@ -258,7 +262,7 @@ public class Database {
                     "('1004', 'David', null, 'Jones', '05/12/1952')," +
                     "('1005', 'Jessie', 'J', 'Lyons', '12/15/12')";
             stmt.executeUpdate(sql);
-
+            
             sql = "INSERT INTO Railway.TICKETS (ID, TypeID, TripID, PassengerID) VALUES " +
                     "('1001', '1', '1', '1001')," +
                     "('1002', '1', '2', '1005')," +
@@ -266,41 +270,41 @@ public class Database {
                     "('1004', '3', '1', '1004')," +
                     "('1005', '3', '2','1002')";
             stmt.executeUpdate(sql);
-
-
+            
+            
         }
         catch (Exception e) {
             System.out.println("Query Error");
         }
     }
-
+    
     public DefaultTableModel query(String query) {
-
+        
         try {
             ResultSet resultSet = c.createStatement().executeQuery(query);
-
+            
             ResultSetMetaData rsmd = resultSet.getMetaData();
-
+            
             int columnsNumber = rsmd.getColumnCount();
-
+            
             Vector<String> columnNames = new Vector<>();
-
+            
             for (int col = 1; col <= columnsNumber; col++) {
                 columnNames.add(rsmd.getColumnName(col));
             }
-
+            
             Vector<Vector<Object>> data = new Vector<>();
-
+            
             while (resultSet.next()) {
                 Vector<Object> vector = new Vector<>();
-
+                
                 for (int i = 1; i <= columnsNumber; i++) {
                     vector.add(resultSet.getObject(i));
                 }
-
+                
                 data.add(vector);
             }
-
+            
             return new DefaultTableModel(data, columnNames) {
                 @Override
                 public boolean isCellEditable(int row, int column) {
@@ -309,9 +313,9 @@ public class Database {
             };
         }
         catch (SQLException ex) {
-
+        
         }
-
+        
         return null;
     }
 }
