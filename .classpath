@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/canyo/Desktop/School/SER316/Memoranda/SER316-Jena-SPRING18/java-json.jar"/>
-	<classpathentry kind="lib" path="C:/Users/canyo/Desktop/School/SER322/RSProject/SER322RailwaySystemProject/postgresql-42.2.2.jar"/>
-	<classpathentry kind="output" path="bin"/>
-</classpath>
