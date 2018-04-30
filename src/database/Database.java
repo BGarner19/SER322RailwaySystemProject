@@ -6,7 +6,7 @@ import java.util.Vector;
 
 public class Database {
 
-    private int port;
+    private final int port;
     private String dbName;
     private String username;
     private String password;
@@ -60,7 +60,7 @@ public class Database {
      * @param c The connection to the database.
      */
 
-    public void createTables(Connection c) {
+    private void createTables(Connection c) {
 
         String sql;
         Statement stmt;
@@ -179,7 +179,7 @@ public class Database {
      * @param c The connection to the database.
      */
 
-    public void fillTables(Connection c) {
+    private void fillTables(Connection c) {
         String sql;
         Statement stmt;
 
@@ -269,22 +269,8 @@ public class Database {
 
         }
         catch (Exception e) {
-            
+            System.out.println("Query Error");
         }
-    }
-
-    public Connection getDatabaseConnection() {
-
-        try {
-            c = DriverManager
-                    .getConnection("jdbc:postgresql://localhost:" + port + "/" + dbName,
-                            username, password);
-        }
-        catch (SQLException ex) {
-
-        }
-
-        return c;
     }
 
     public DefaultTableModel query(String query) {
@@ -298,16 +284,16 @@ public class Database {
 
             int columnsNumber = rsmd.getColumnCount();
 
-            Vector<String> columnNames = new Vector<String>();
+            Vector<String> columnNames = new Vector<>();
 
             for (int col = 1; col <= columnsNumber; col++) {
                 columnNames.add(rsmd.getColumnName(col));
             }
 
-            Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+            Vector<Vector<Object>> data = new Vector<>();
 
             while (resultSet.next()) {
-                Vector<Object> vector = new Vector<Object>();
+                Vector<Object> vector = new Vector<>();
 
                 for (int i = 1; i <= columnsNumber; i++) {
                     vector.add(resultSet.getObject(i));
@@ -316,10 +302,15 @@ public class Database {
                 data.add(vector);
             }
 
-            return new DefaultTableModel(data, columnNames);
+            return new DefaultTableModel(data, columnNames) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
         }
         catch (SQLException ex) {
-
+            System.out.println("Query Error");
         }
 
         return null;
