@@ -247,7 +247,8 @@ public class Database {
             sql = "INSERT INTO Railway.TICKET_TYPES (ID, Type, Price) VALUES " +
                     "('1', 'Adult', '15.99')," +
                     "('2', 'Child', '6.99')," +
-                    "('3', 'Senior', '9.99')";
+                    "('3', 'Senior', '9.99')," +
+                    "('4', 'Student', '10.99')";
             stmt.executeUpdate(sql);
 
             sql = "INSERT INTO Railway.PASSENGERS (ID, FName, MI, LName, BDate) VALUES " +
@@ -275,9 +276,7 @@ public class Database {
 
     public DefaultTableModel query(String query) {
 
-        System.out.println(query);
         try {
-
             ResultSet resultSet = c.createStatement().executeQuery(query);
 
             ResultSetMetaData rsmd = resultSet.getMetaData();
@@ -310,7 +309,7 @@ public class Database {
             };
         }
         catch (SQLException ex) {
-            System.out.println("Query Error");
+
         }
 
         return null;

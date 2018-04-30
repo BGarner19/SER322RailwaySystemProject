@@ -138,8 +138,6 @@ public class RailwaySystem {
         tripsTable = new JTable();
         routesTable = new JTable();
 
-        updateGUI();
-
         routesSearchButton.addActionListener(new SearchButtonListener());
         trainsSearchButton.addActionListener(new SearchButtonListener());
         passengersSearchButton.addActionListener(new SearchButtonListener());
@@ -267,6 +265,7 @@ public class RailwaySystem {
 		frame.setSize(new Dimension(1200, 900));
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(0);
+        updateGUI();
 	}
 
 	private void updateGUI() {
@@ -326,27 +325,31 @@ public class RailwaySystem {
             }
 
             JTable queryOut = new JTable(database.query(query.buildQuery()));
-            JScrollPane spane = new JScrollPane(queryOut);
 
-            queryPopout.setTitle(resultsType + "RESULTS");
-            queryFramePanel.removeAll();
+            if (queryOut.getColumnCount() != 0) {
+                JScrollPane spane = new JScrollPane(queryOut);
 
-            queryFramePanel.add(spane);
-            queryPopout.getContentPane();
-            queryPopout.add(queryFramePanel);
+                queryPopout.setTitle(resultsType + "RESULTS");
+                queryFramePanel.removeAll();
 
-            queryPopout.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosing(WindowEvent e) {
-                    queryPopout.dispose();
-                    queryFramePanel.removeAll();
-                }
-            });
+                queryFramePanel.add(spane);
+                queryPopout.getContentPane();
+                queryPopout.add(queryFramePanel);
 
-            queryPopout.pack();
-            queryPopout.setVisible(true);
+                queryPopout.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosing(WindowEvent e) {
+                        queryPopout.dispose();
+                        queryFramePanel.removeAll();
+                    }
+                });
+
+                queryPopout.pack();
+                queryPopout.setVisible(true);
+            }
 
             updateGUI();
+
         }
     }
 }
