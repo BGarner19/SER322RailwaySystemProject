@@ -18,11 +18,6 @@ public class RailwaySystem {
     private JTable tripsTable;
     private JTable routesTable;
     
-    public RailwaySystem() {
-        database = new Database(5432, "Team6RailwayDB", "postgres", "322");
-        init();
-    }
-    
     private JTabbedPane tabbedPane = new JTabbedPane();
     private JFrame frame = new JFrame();
     private JTextArea queryArea;
@@ -46,6 +41,11 @@ public class RailwaySystem {
     
     private JTextField routesDepartingStation;
     private JTextField routesArrivingStation;
+    
+    public RailwaySystem(int port, String dbName, String username, String password) {
+        database = new Database(port, dbName, username, password);
+        init();
+    }
     
     
     private void init() {
