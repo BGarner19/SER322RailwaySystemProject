@@ -18,11 +18,9 @@ public class RailwaySystem {
     private JTable tripsTable;
     private JTable routesTable;
     
-    private JTabbedPane tabbedPane = new JTabbedPane();
-    private JFrame frame = new JFrame();
     private JTextArea queryArea;
-    private JDialog queryPopout = new JDialog();
-    private JPanel queryFramePanel = new JPanel();
+    private JDialog queryPopout;
+    private JPanel queryFramePanel;
     
     private JButton routesSearchButton;
     private JButton trainsSearchButton;
@@ -47,11 +45,13 @@ public class RailwaySystem {
         init();
     }
     
-    
     private void init() {
+    
+        JTabbedPane tabbedPane = new JTabbedPane();
+        JFrame frame = new JFrame();
+        queryPopout = new JDialog();
+        queryFramePanel = new JPanel();
         
-        
-        //Query panel setup
         JPanel queryPanel = new JPanel(new GridLayout(1, 2));
         queryArea = new JTextArea();
         
